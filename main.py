@@ -1,4 +1,5 @@
 
+from gamecontext import GameContext
 from math import cos, pi, sin
 from random import random
 
@@ -19,6 +20,10 @@ coord_system.setValue("yup-right")
 
 class MyApp(ShowBase):
     def __init__(self):
+        self.entities = []
+        self.statics = []
+        self.new_entities = []
+
         ShowBase.__init__(self)
         # render.setShaderAuto()
         base.setBackgroundColor(0, 0, 0)
@@ -26,6 +31,7 @@ class MyApp(ShowBase):
         lens.setFilmSize(80*0.8, 60*0.8)  # Or whatever is appropriate for your scene
         base.cam.node().setLens(lens)
         base.cam.setPos(0,0,0)
+        self.render_node = render.attachNewNode("Entire Screen")
         self.accept('c',self.ShowCamPos)
         self.space = pymunk.Space()      # Create a Space which contain the simulation
         self.space.damping = 0.99
@@ -43,27 +49,43 @@ class MyApp(ShowBase):
     def physics_task(self, task):
         dt = round(globalClock.getDt(),2)
         self.space.step(dt)
+
         for entity in self.entities:
             entity.tick(dt)
+
+        self.spawn_entities()
         return Task.cont
 
     def squares(self):
-        self.entities = []
-        self.statics = []
-        self.node = render.attachNewNode("Dummy Node Name")
-        square = DynamicEntity(self.loader)
-        self.spawn_entity(square)
+        #Provide game entities with functions for spawning entities into the world and loading assets.
+        context = GameContext()
+        context.loader = self.loader
+        context.spawn_entity = self.spawn_entity
 
-        square = PhysicsEntity(self.loader,(1.4,-10))      
-        self.spawn_entity(square)
+        entity = DynamicEntity(context)
+        self.spawn_entity(entity)
+
+        entity = PhysicsEntity(context,(1.4,-10))      
+        self.spawn_entity(entity)
 
 
+    #creates all queued entities
+    def spawn_entities(self):
+        while self.new_entities:
+            self._spawn_entity(self.new_entities.pop())
+
+    #queues an entity for creation
     def spawn_entity(self, entity):
-        if entity.model is not None:
-            entity.model.reparent_to(self.node)                # add to renderer
+        self.new_entities.append(entity)
+    
+    #Internal spawn entities, this is only called once all entities are ticked 
+    # to avoid race conditions to do with entity creation order
+    def _spawn_entity(self, entity):
+        if entity.render_model is not None:
+            entity.render_model.reparent_to(self.render_node)                # add to renderer
 
-        if (entity.body is not None) and (entity.poly is not None):
-            self.space.add(entity.body, entity.poly) # add to physics world
+        if (entity.physics_body is not None) and (entity.physics_poly is not None):
+            self.space.add(entity.physics_body, entity.physics_poly) # add to physics world
         
         if isinstance(entity,TickingEntity):
             self.entities.append(entity)
