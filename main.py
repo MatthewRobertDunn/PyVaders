@@ -52,7 +52,7 @@ class MyApp(ShowBase):
         square = DynamicEntity(self.loader)
         self.spawn_entity(square)
 
-        square = StaticEntity(self.loader,(0,-10))      
+        square = StaticEntity(self.loader,(1.4,-10))      
         self.spawn_entity(square)
 
 

@@ -1,6 +1,6 @@
 
 import pymunk
-
+import math
 #A basic dynamic physics game entity
 class DynamicEntity:
     def __init__(self, loader, position = (0,0)):
@@ -27,7 +27,7 @@ class DynamicEntity:
     #Update graphics model to match the physics model
     def update_graphics_model(self):
         self.model.set_pos(self.body.position[0], self.body.position[1], -2.0)
-        #todo set graphics model rotation based on physics body rotation?
+        self.model.set_hpr(0,0,math.degrees(-self.body.angle))  # is this right? seems like it
 
     #Main game logic
     def tick(self, dt):
