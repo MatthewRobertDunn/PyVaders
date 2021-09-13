@@ -1,0 +1,57 @@
+<CoordinateSystem> { Z-up }
+
+<Comment> { "A single quad facing in the (0,-1,0) direction" }
+
+<Material> Material {
+  <Scalar> diffr {0.800000011921}
+  <Scalar> diffg {0.000000011921}
+  <Scalar> diffb {0.000000011921}
+  <Scalar> specr {0.25}
+  <Scalar> specg {0.25}
+  <Scalar> specb {0.25}
+  <Scalar> shininess {12.5}
+}
+<Group> Cube {
+  <VertexPool> Cube {
+
+    <Vertex> 0 {
+      1.0 0.0 -1.0
+      <UV>  {
+        0.000000 0.000000
+        <Tangent> { -1.000000 0.000000 0.000000 }
+        <Binormal> { -0.000000 -0.000000 1.000000 }
+      }
+    }
+    <Vertex> 1 {
+      1.0 0.0 1.0
+      <UV>  {
+        -0.000000 1.000000
+        <Tangent> { -1.000000 0.000000 0.000000 }
+        <Binormal> { -0.000000 -0.000000 1.000000 }
+      }
+    }
+    <Vertex> 2 {
+      -1.0 0.0 1.0
+      <UV>  {
+        -1.000000 1.000000
+        <Tangent> { -1.000000 0.000000 0.000000 }
+        <Binormal> { -0.000000 -0.000000 1.000000 }
+      }
+    }
+    <Vertex> 3 {
+      -1.0 0.0 -1.0
+      <UV>  {
+        -1.000000 0.000000
+        <Tangent> { -1.000000 0.000000 -0.000000 }
+        <Binormal> { -0.000000 -0.000000 1.000000 }
+      }
+    }
+   }
+  
+  <Polygon> {
+    <MRef> { Material }
+    <Normal> { -0.000000 -1.000000 -0.000000
+    }
+    <VertexRef> { 0 1 2 3 <Ref> { Cube } }
+  }
+}
