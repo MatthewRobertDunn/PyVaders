@@ -1,7 +1,7 @@
 
 import pymunk
 import math
-
+from panda3d.core import *
 #A basic dynamic physics game entity
 class PhysicsEntity:
     def __init__(self, loader, position = (0,0)):
@@ -19,6 +19,9 @@ class PhysicsEntity:
     #Create the visual component of the game entity
     def create_graphics_model(self):
         self.model = self.loader.loadModel("square2.egg")
+        texture = self.loader.loadTexture("alien.png")
+        self.model.setTransparency(TransparencyAttrib.MAlpha, 1)
+        self.model.setTexture(texture)
         self.update_graphics_model()
 
   #Update graphics model to match the physics model
