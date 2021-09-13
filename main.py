@@ -33,9 +33,9 @@ class MyApp(ShowBase):
         base.cam.setPos(0,0,0)
         self.render_node = render.attachNewNode("Entire Screen")
         self.accept('c',self.ShowCamPos)
-        self.space = pymunk.Space()      # Create a Space which contain the simulation
-        self.space.damping = 0.99
-        self.space.gravity = 0,-9.81      # Set its gravity
+        self.physics = pymunk.Space()      # Create a Space which contain the simulation
+        self.physics.damping = 0.99
+        self.physics.gravity = 0,-9.81      # Set its gravity
         self.squares()
         self.taskMgr.add(self.physics_task, "physics")
     
@@ -48,7 +48,7 @@ class MyApp(ShowBase):
 
     def physics_task(self, task):
         dt = round(globalClock.getDt(),2)
-        self.space.step(dt)
+        self.physics.step(dt)
 
         for entity in self.entities:
             entity.tick(dt)
@@ -81,12 +81,15 @@ class MyApp(ShowBase):
     #Internal spawn entities, this is only called once all entities are ticked 
     # to avoid race conditions to do with entity creation order
     def _spawn_entity(self, entity):
+        #Add entity to renderer if it has any render model
         if entity.render_model is not None:
-            entity.render_model.reparent_to(self.render_node)                # add to renderer
+            entity.render_model.reparent_to(self.render_node)
 
+        #add entity to physics simulation if it has a physics body.
         if (entity.physics_body is not None) and (entity.physics_poly is not None):
-            self.space.add(entity.physics_body, entity.physics_poly) # add to physics world
+            self.physics.add(entity.physics_body, entity.physics_poly) # add to physics world
         
+        #Include entity in game ticks if it supports receiving them.
         if isinstance(entity,TickingEntity):
             self.entities.append(entity)
         else:
