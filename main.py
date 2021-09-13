@@ -1,4 +1,6 @@
 
+from keys import GameKeys
+from entities.playerentity import PlayerEntity
 from gamecontext import GameContext
 from math import cos, pi, sin
 from random import random
@@ -20,11 +22,13 @@ coord_system.setValue("yup-right")
 
 class MyApp(ShowBase):
     def __init__(self):
+        ShowBase.__init__(self)
         self.entities = []
         self.statics = []
         self.new_entities = []
-
-        ShowBase.__init__(self)
+        self.keys = GameKeys()
+        base.setFrameRateMeter(True)
+        #base.messenger.toggleVerbose()
         # render.setShaderAuto()
         base.setBackgroundColor(0, 0, 0)
         lens = OrthographicLens()
@@ -34,10 +38,10 @@ class MyApp(ShowBase):
         self.render_node = render.attachNewNode("Entire Screen")
         self.accept('c',self.ShowCamPos)
         self.physics = pymunk.Space()      # Create a Space which contain the simulation
-        self.physics.damping = 0.99
+        self.physics.damping = 0.2
         self.physics.gravity = 0,-9.81      # Set its gravity
         self.squares()
-        self.taskMgr.add(self.physics_task, "physics")
+        self.taskMgr.add(self.physics_task, "physics",None,None,-100)
     
     def ShowCamPos(self):
 #        position = environ.getPos()
@@ -47,13 +51,12 @@ class MyApp(ShowBase):
         print(str(x)+":"+str(y)+":"+str(z))
 
     def physics_task(self, task):
-        dt = round(globalClock.getDt(),2)
-        self.physics.step(dt)
-
+        dt = round(globalClock.getDt(),3)
+        self.keys.poll(base.mouseWatcherNode)
         for entity in self.entities:
             entity.tick(dt)
-
         self.spawn_entities()
+        self.physics.step(0.01)
         return Task.cont
 
     def squares(self):
@@ -61,13 +64,17 @@ class MyApp(ShowBase):
         context = GameContext()
         context.loader = self.loader
         context.spawn_entity = self.spawn_entity
+        context.static_body = self.physics.static_body #This is required for creating some joints.
+        context.keys = self.keys
 
-        entity = DynamicEntity(context)
-        self.spawn_entity(entity)
+        #entity = DynamicEntity(context)
+        #self.spawn_entity(entity)
 
         entity = PhysicsEntity(context,(1.4,-10))      
         self.spawn_entity(entity)
 
+        entity = PlayerEntity(context,(0,-15))
+        self.spawn_entity(entity)
 
     #creates all queued entities
     def spawn_entities(self):

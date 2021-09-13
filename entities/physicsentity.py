@@ -7,6 +7,7 @@ class PhysicsEntity:
     def __init__(self, context, position = (0,0)):
         self.context = context
         self.loader = context.loader
+        self.keys = context.keys
         self.physics_components = []  #contains other physics components, constraints, joints, etc
         self.create_physics_body(position)
         self.create_graphics_model()
