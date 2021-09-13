@@ -6,8 +6,9 @@ from direct.showbase.ShowBase import ShowBase
 from direct.task import Task
 from panda3d.core import *
 from panda3d.core import ConfigVariableString
-from dynamicentity import DynamicEntity
 import pymunk
+from entities.staticentity import StaticEntity
+from entities.dynamicentity import DynamicEntity
 
 coord_system = ConfigVariableString("coordinate-system")
 print(coord_system)
@@ -25,6 +26,7 @@ class MyApp(ShowBase):
         base.cam.setPos(0,0,0)
         self.accept('c',self.ShowCamPos)
         self.space = pymunk.Space()      # Create a Space which contain the simulation
+        self.space.damping = 0.99
         self.space.gravity = 0,-9.81      # Set its gravity
         self.squares()
         self.taskMgr.add(self.physics_task, "physics")
@@ -37,7 +39,7 @@ class MyApp(ShowBase):
         print(str(x)+":"+str(y)+":"+str(z))
 
     def physics_task(self, task):
-        dt = globalClock.getDt()
+        dt = round(globalClock.getDt(),2)
         self.space.step(dt)
         for entity in self.entities:
             entity.tick(dt)
@@ -49,7 +51,9 @@ class MyApp(ShowBase):
         self.node = render.attachNewNode("Dummy Node Name")
         square = DynamicEntity(self.loader)
         self.spawn_entity(square)
-        
+
+        square = StaticEntity(self.loader,(0,-10))      
+        self.spawn_entity(square)
 
 
     def spawn_entity(self, entity):
@@ -59,7 +63,12 @@ class MyApp(ShowBase):
         if (entity.body is not None) and (entity.poly is not None):
             self.space.add(entity.body, entity.poly) # add to physics world
         
-        self.entities.append(entity)
+        if isinstance(entity,DynamicEntity):
+            self.entities.append(entity)
+        
+        if isinstance(entity,StaticEntity):
+            self.statics.append(entity)
+
 
 app = MyApp()
 app.run()
