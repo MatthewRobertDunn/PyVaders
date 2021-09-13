@@ -1,5 +1,4 @@
 
-from entities.tickingentity import TickingEntity
 from math import cos, pi, sin
 from random import random
 
@@ -8,8 +7,10 @@ from direct.task import Task
 from panda3d.core import *
 from panda3d.core import ConfigVariableString
 import pymunk
-from entities.staticentity import StaticEntity
 from entities.dynamicentity import DynamicEntity
+from entities.physicsentity import PhysicsEntity
+from entities.tickingentity import TickingEntity
+
 
 coord_system = ConfigVariableString("coordinate-system")
 print(coord_system)
@@ -53,7 +54,7 @@ class MyApp(ShowBase):
         square = DynamicEntity(self.loader)
         self.spawn_entity(square)
 
-        square = StaticEntity(self.loader,(1.4,-10))      
+        square = PhysicsEntity(self.loader,(1.4,-10))      
         self.spawn_entity(square)
 
 

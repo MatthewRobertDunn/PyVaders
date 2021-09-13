@@ -11,7 +11,10 @@ class PhysicsEntity:
 
         #Create the physics component of the game entity.
     def create_physics_body(self, position):
-        raise NotImplementedError()
+        self.body = pymunk.Body(body_type=pymunk.Body.STATIC)        # Create a Body
+        self.body.position = position     # Set the position of the body
+        self.poly = pymunk.Poly.create_box(self.body, (2.0,2.0))
+        self.poly.elasticity = 0.9
 
     #Create the visual component of the game entity
     def create_graphics_model(self):
