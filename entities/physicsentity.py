@@ -7,6 +7,7 @@ class PhysicsEntity:
     def __init__(self, context, position = (0,0)):
         self.context = context
         self.loader = context.loader
+        self.physics_components = []  #contains other physics components, constraints, joints, etc
         self.create_physics_body(position)
         self.create_graphics_model()
 
@@ -14,8 +15,9 @@ class PhysicsEntity:
     def create_physics_body(self, position):
         self.physics_body = pymunk.Body(body_type=pymunk.Body.STATIC)        # Create a Body
         self.physics_body.position = position     # Set the position of the body
-        self.physics_poly = pymunk.Poly.create_box(self.physics_body, (2.0,2.0))
-        self.physics_poly.elasticity = 0.9
+        physics_poly = pymunk.Poly.create_box(self.physics_body, (2.0,2.0))
+        physics_poly.elasticity = 0.9
+        self.physics_components.append(physics_poly)
 
     #Create the visual component of the game entity
     def create_graphics_model(self):

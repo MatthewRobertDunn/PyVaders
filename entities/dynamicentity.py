@@ -13,9 +13,10 @@ class DynamicEntity(PhysicsEntity, TickingEntity):
     def create_physics_body(self, position):
         self.physics_body = pymunk.Body()        # Create a Body
         self.physics_body.position = position     # Set the position of the body
-        self.physics_poly = pymunk.Poly.create_box(self.physics_body, (2.0,2.0))
-        self.physics_poly.mass = 1.0
-        self.physics_poly.elasticity = 0.5
+        physics_poly = pymunk.Poly.create_box(self.physics_body, (2.0,2.0))
+        physics_poly.mass = 1.0
+        physics_poly.elasticity = 0.5
+        self.physics_components.append(physics_poly)
 
   
     #Main game logic

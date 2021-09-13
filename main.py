@@ -86,8 +86,12 @@ class MyApp(ShowBase):
             entity.render_model.reparent_to(self.render_node)
 
         #add entity to physics simulation if it has a physics body.
-        if (entity.physics_body is not None) and (entity.physics_poly is not None):
-            self.physics.add(entity.physics_body, entity.physics_poly) # add to physics world
+        if (entity.physics_body is not None):
+            self.physics.add(entity.physics_body) # add to physics world
+        
+        if(entity.physics_components):
+            for component in entity.physics_components:
+                self.physics.add(component)
         
         #Include entity in game ticks if it supports receiving them.
         if isinstance(entity,TickingEntity):
