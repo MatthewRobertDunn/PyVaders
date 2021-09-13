@@ -1,4 +1,5 @@
 
+from entities.tickingentity import TickingEntity
 from math import cos, pi, sin
 from random import random
 
@@ -63,10 +64,9 @@ class MyApp(ShowBase):
         if (entity.body is not None) and (entity.poly is not None):
             self.space.add(entity.body, entity.poly) # add to physics world
         
-        if isinstance(entity,DynamicEntity):
+        if isinstance(entity,TickingEntity):
             self.entities.append(entity)
-        
-        if isinstance(entity,StaticEntity):
+        else:
             self.statics.append(entity)
 
 
