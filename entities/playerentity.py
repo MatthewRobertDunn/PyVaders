@@ -10,17 +10,9 @@ class PlayerEntity(DynamicEntity):
 
     #Create the physics component of the game entity.
     def create_physics_body(self, position):
-        self.physics_body = pymunk.Body()        # Create a Body
-        self.physics_body.position = position     # Set the position of the body
-        physics_poly = pymunk.Poly.create_box(self.physics_body, (4.0,3.0))
-        physics_poly.mass = 1.0
-        physics_poly.elasticity = 0.5
-        self.physics_components.append(physics_poly)
-
+        self.create_dynamic_rectangle_body(position, 4.0, 3.0)
         move_joint = pymunk.GrooveJoint(self.context.static_body, self.physics_body, (-100, position[1]), (100, position[1]), (0, 0))
         self.physics_components.append(move_joint)
-
-  
 
     def create_graphics_model(self):
         self.create_card(5.0,5.0)  #Create a 5x5 card
@@ -30,10 +22,10 @@ class PlayerEntity(DynamicEntity):
     def tick(self, dt):
         self.update_graphics_model()
         if self.keys.right:
-            self.physics_body.apply_force_at_local_point((50.0,0.0),(0,0))
+            self.physics_body.apply_force_at_local_point((500.0,0.0),(0,0))
         
         if self.keys.left:
-            self.physics_body.apply_force_at_local_point((-50.0,0.0),(0,0))
+            self.physics_body.apply_force_at_local_point((-500.0,0.0),(0,0))
             
 
 

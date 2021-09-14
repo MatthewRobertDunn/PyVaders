@@ -15,11 +15,7 @@ class PhysicsEntity:
 
         #Create the physics component of the game entity.
     def create_physics_body(self, position):
-        self.physics_body = pymunk.Body(body_type=pymunk.Body.STATIC)        # Create a Body
-        self.physics_body.position = position     # Set the position of the body
-        physics_poly = pymunk.Poly.create_box(self.physics_body, (2.0,2.0))
-        physics_poly.elasticity = 0.9
-        self.physics_components.append(physics_poly)
+        self.create_static_rectangle_body(position, 2.0, 2.0)
 
     #Create the visual component of the game entity
     def create_graphics_model(self):
@@ -39,6 +35,20 @@ class PhysicsEntity:
         texture = self.loader.loadTexture(file)
         self.render_model.setTransparency(TransparencyAttrib.MAlpha, 1)
         self.render_model.setTexture(texture)
+
+
+    def create_dynamic_rectangle_body(self,position, width, height):
+        self.physics_body = pymunk.Body()        # Create a Body
+        self.physics_body.position = position     # Set the position of the body
+        physics_poly = pymunk.Poly.create_box(self.physics_body, (width,height))
+        physics_poly.density = 1.0
+        self.physics_components.append(physics_poly)
+
+    def create_static_rectangle_body(self,position, width, height):
+        self.physics_body = pymunk.Body(body_type=pymunk.Body.STATIC)        # Create a Body
+        self.physics_body.position = position     # Set the position of the body
+        physics_poly = pymunk.Poly.create_box(self.physics_body, (width, height))
+        self.physics_components.append(physics_poly)
 
   #Update graphics model to match the physics model
     def update_graphics_model(self):
