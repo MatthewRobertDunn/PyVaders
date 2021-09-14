@@ -14,5 +14,5 @@ class Missile(DynamicEntity):
 
     #Main game logic
     def tick(self, dt):
-        self.physics_body.apply_force_at_local_point(force=(0.0,10.0),point=(0,0)) #-90 degree rotate, missiles go up
+        self.physics_body.apply_force_at_local_point(force=(0.0,10.0),point=(0,0))
         self.update_graphics_model()
