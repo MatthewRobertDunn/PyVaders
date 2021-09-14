@@ -14,6 +14,5 @@ class Missile(DynamicEntity):
 
     #Main game logic
     def tick(self, dt):
-        rv = self.physics_body.rotation_vector * 20.0  # missile needs more thrust
-        self.physics_body.apply_force_at_local_point((rv[1],rv[0]) ,(0,0)) #-90 degree rotate, missiles go up
+        self.physics_body.apply_force_at_local_point(force=(0.0,10.0),point=(0,0)) #-90 degree rotate, missiles go up
         self.update_graphics_model()
