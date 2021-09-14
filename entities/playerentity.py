@@ -23,16 +23,8 @@ class PlayerEntity(DynamicEntity):
   
 
     def create_graphics_model(self):
-        # Make a card on which the shader will render the map
-        c = CardMaker("MapCardMaker")
-        c.setFrame(-2.5, 2.5, -2.5, 2.5)
-        self.render_model = NodePath(c.generate())
-        #self.render_model.setColor(1.0,1.0,0.0)
-        texture = self.loader.loadTexture("gfx/p38_lvl_3_d4.png")
-        self.render_model.setTransparency(TransparencyAttrib.MAlpha, 1)
-        self.render_model.setTexture(texture)
-
-        self.update_graphics_model()
+        self.create_card(5.0,5.0)  #Create a 5x5 card
+        self.load_texture("gfx/p38_lvl_3_d4.png")
 
     #Main game logic
     def tick(self, dt):
@@ -42,6 +34,8 @@ class PlayerEntity(DynamicEntity):
         
         if self.keys.left:
             self.physics_body.apply_force_at_local_point((-50.0,0.0),(0,0))
-        
+            
+
+
         
         
