@@ -54,7 +54,8 @@ class MyApp(ShowBase):
         dt = round(globalClock.getDt(),3)
         self.keys.poll(base.mouseWatcherNode)
         for entity in self.entities:
-            entity.tick(dt)
+            entity.dt = dt
+            entity.tick()
         self.spawn_entities()
         self.physics.step(0.01)
         return Task.cont

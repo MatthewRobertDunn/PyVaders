@@ -13,6 +13,6 @@ class Missile(DynamicEntity):
         self.create_card(0.25,1.0)  #Create a 5x5 card
 
     #Main game logic
-    def tick(self, dt):
+    def tick(self):
         self.physics_body.apply_force_at_local_point(force=(0.0,10.0),point=(0,0))
         self.update_graphics_model()

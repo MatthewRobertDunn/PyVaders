@@ -7,7 +7,9 @@ from entities.tickingentity import TickingEntity
 #A basic dynamic physics game entity
 class DynamicEntity(PhysicsEntity, TickingEntity):
     def __init__(self, context, position = (0,0)):
+        TickingEntity.__init__(self)
         super().__init__(context,position)
+        
 
     #Create the physics component of the game entity.
     def create_physics_body(self, position):
@@ -20,6 +22,6 @@ class DynamicEntity(PhysicsEntity, TickingEntity):
 
   
     #Main game logic
-    def tick(self, dt):
+    def tick(self):
         self.update_graphics_model()
         
