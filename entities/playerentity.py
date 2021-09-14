@@ -3,6 +3,7 @@ import pymunk
 import math
 from panda3d.core import CardMaker, NodePath,TransparencyAttrib
 from entities.dynamicentity import DynamicEntity
+from entities.missile import Missile
 #A basic dynamic physics game entity
 class PlayerEntity(DynamicEntity):
     def __init__(self, context, position = (0,0)):
@@ -26,8 +27,9 @@ class PlayerEntity(DynamicEntity):
         
         if self.keys.left:
             self.physics_body.apply_force_at_local_point((-500.0,0.0),(0,0))
+
+        if self.keys.fire:
+            missile = Missile(self.context,(self.physics_body.position[0], self.physics_body.position[1]+2.5))
+            self.context.spawn_entity(missile)
+        
             
-
-
-        
-        
