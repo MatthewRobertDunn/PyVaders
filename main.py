@@ -25,7 +25,8 @@ class MyApp(ShowBase):
         ShowBase.__init__(self)
         self.entities = []
         self.statics = []
-        self.new_entities = []
+        self.created_entities = []  
+        self.deleted_entities = []
         self.keys = GameKeys()
         base.setFrameRateMeter(True)
         #base.messenger.toggleVerbose()
@@ -56,6 +57,7 @@ class MyApp(ShowBase):
         for entity in self.entities:
             entity.dt = dt
             entity.tick()
+        self.despawn_entities()
         self.spawn_entities()
         self.physics.step(0.01)
         return Task.cont
@@ -65,6 +67,7 @@ class MyApp(ShowBase):
         context = GameContext()
         context.loader = self.loader
         context.spawn_entity = self.spawn_entity
+        context.despawn_entity = self.despawn_entity
         context.static_body = self.physics.static_body #This is required for creating some joints.
         context.keys = self.keys
 
@@ -79,12 +82,12 @@ class MyApp(ShowBase):
 
     #creates all queued entities
     def spawn_entities(self):
-        while self.new_entities:
-            self._spawn_entity(self.new_entities.pop())
+        while self.created_entities:
+            self._spawn_entity(self.created_entities.pop())
 
     #queues an entity for creation
     def spawn_entity(self, entity):
-        self.new_entities.append(entity)
+        self.created_entities.append(entity)
     
     #Internal spawn entities, this is only called once all entities are ticked 
     # to avoid race conditions to do with entity creation order
@@ -106,6 +109,31 @@ class MyApp(ShowBase):
             self.entities.append(entity)
         else:
             self.statics.append(entity)
+
+
+    def despawn_entities(self):
+        while self.deleted_entities:
+            self._despawn_entity(self.created_entities.pop())
+
+    def despawn_entity(self, entity):
+        self.deleted_entities.append(entity)
+
+    def _despawn_entity(self, entity):
+        if isinstance(entity,TickingEntity):
+            self.entities.remove(entity)
+        else:
+            self.statics.remove(entity)
+
+        if(entity.physics_components):
+            for component in entity.physics_components:
+                self.physics.remove(component)
+
+        if (entity.physics_body is not None):
+            self.physics.remove(entity.physics_body) # add to physics world
+
+        if entity.render_model is not None:
+            self.render_model.removeNode()
+
 
 
 app = MyApp()
