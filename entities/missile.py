@@ -16,4 +16,5 @@ class Missile(DynamicEntity):
     #Main game logic
     def tick(self):
         self.physics_body.apply_force_at_local_point(force=(0.0,10.0),point=(0,0))
+        self.once_after("delete", lambda: self.context.despawn_entity(self),5.0)  #delete rocket after 1 second
         self.update_graphics_model()

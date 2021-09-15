@@ -114,7 +114,7 @@ class MyApp(ShowBase):
 
     def despawn_entities(self):
         while self.deleted_entities:
-            self._despawn_entity(self.created_entities.pop())
+            self._despawn_entity(self.deleted_entities.pop())
 
     def despawn_entity(self, entity):
         self.deleted_entities.append(entity)
@@ -133,7 +133,7 @@ class MyApp(ShowBase):
             self.physics.remove(entity.physics_body) # add to physics world
 
         if entity.render_model is not None:
-            self.render_model.removeNode()
+            entity.render_model.removeNode()
 
 
 
