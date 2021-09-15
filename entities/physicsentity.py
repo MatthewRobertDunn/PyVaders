@@ -4,12 +4,12 @@ import math
 from panda3d.core import CardMaker, NodePath,TransparencyAttrib
 #A basic dynamic physics game entity
 class PhysicsEntity:
+    cardMaker = CardMaker("MapCardMaker") #thing used to make a graphical rectangles.
     def __init__(self, context, position = (0,0)):
         self.context = context
         self.loader = context.loader
         self.keys = context.keys
         self.physics_components = []  #contains other physics components, constraints, joints, etc
-        self.cardMaker = CardMaker("MapCardMaker") #thing used to make a graphical rectangles.
         self.create_physics_body(position)
         self.create_graphics_model()
 

@@ -23,8 +23,8 @@ class TickingEntity:
     def once_after(self,task_name, func, limit):
         fireTime = self.after_funcs.get(task_name, None)
         if fireTime is None:
-            self.after_funcs[task_name] = TickingEntity.time + limit
+            self.after_funcs[task_name] = self.time + limit
             return
-        elif TickingEntity.time >= fireTime:
+        elif self.time >= fireTime:
             func()  #fire it
             self.after_funcs[task_name] = float('inf')
