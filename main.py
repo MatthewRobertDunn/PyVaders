@@ -43,7 +43,16 @@ class MyApp(ShowBase):
         self.physics.gravity = 0,-9.81      # Set its gravity
         self.squares()
         self.taskMgr.add(self.physics_task, "physics",None,None,-100)
+        h = self.physics.add_collision_handler(1, 1)
+        h.separate = self.on_collision
     
+
+    def on_collision(self, arbiter, space, data):
+        entity1 = arbiter.shapes[0].entity
+        entity2 = arbiter.shapes[1].entity
+        entity1.on_collision(entity2)
+        entity2.on_collision(entity1)
+
     def ShowCamPos(self):
 #        position = environ.getPos()
         x=base.camera.getX()

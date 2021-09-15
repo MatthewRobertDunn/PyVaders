@@ -19,12 +19,14 @@ class PhysicsEntity:
 
     #Create the visual component of the game entity
     def create_graphics_model(self):
-        self.render_model = self.loader.loadModel("square2.egg")
-        texture = self.loader.loadTexture("alien.png")
-        self.render_model.setTransparency(TransparencyAttrib.MAlpha, 1)
-        self.render_model.setTexture(texture)
+        #self.render_model = self.loader.loadModel("square2.egg")
+        self.create_card(2.0,2.0)
+        self.load_texture("alien.png")
         self.update_graphics_model()
 
+
+    def on_collision(self, other):
+        pass
 
     #Creates a rectangle out of polygons, useful for putting sprites on
     def create_card(self,width, height):
@@ -37,17 +39,23 @@ class PhysicsEntity:
         self.render_model.setTexture(texture)
 
 
-    def create_dynamic_rectangle_body(self,position, width, height):
+    def create_dynamic_rectangle_body(self,position, width, height, collisions = True):
         self.physics_body = pymunk.Body()        # Create a Body
         self.physics_body.position = position     # Set the position of the body
         physics_poly = pymunk.Poly.create_box(self.physics_body, (width,height))
         physics_poly.density = 1.0
+        if collisions:
+            physics_poly.collision_type = 1
+        physics_poly.entity = self
         self.physics_components.append(physics_poly)
 
-    def create_static_rectangle_body(self,position, width, height):
+    def create_static_rectangle_body(self,position, width, height, collisions = True):
         self.physics_body = pymunk.Body(body_type=pymunk.Body.STATIC)        # Create a Body
         self.physics_body.position = position     # Set the position of the body
         physics_poly = pymunk.Poly.create_box(self.physics_body, (width, height))
+        if collisions:
+            physics_poly.collision_type = 1
+        physics_poly.entity = self
         self.physics_components.append(physics_poly)
 
   #Update graphics model to match the physics model
