@@ -1,8 +1,10 @@
 #An entity that receives ticks
 class TickingEntity:
+    dt = 0.0        #Time passed per frame, secs
+    time = 0.0      #time passed since simulation start, secs
     def __init__(self):
         self.at_most_funcs = {}
-        self.dt = 0.0
+        
     #Main game logic
     def tick(self):
         raise NotImplementedError()
