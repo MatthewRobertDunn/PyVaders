@@ -10,8 +10,6 @@ class TickingEntity:
         raise NotImplementedError()
 
     def at_most(self, func, limit):
-        if(self.at_most_funcs.get(func, limit) >= limit):
+        if(TickingEntity.time - self.at_most_funcs.get(func, -limit) >= limit):
             func()
-            self.at_most_funcs[func] = 0.0
-        else:
-            self.at_most_funcs[func] += TickingEntity.delta_time
+            self.at_most_funcs[func] = TickingEntity.time   #We last fired this func now
