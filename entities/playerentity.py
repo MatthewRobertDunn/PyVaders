@@ -21,7 +21,6 @@ class PlayerEntity(DynamicEntity):
 
     #Main game logic
     def tick(self):
-        self.update_graphics_model()
         if self.keys.right:
             self.physics_body.apply_force_at_local_point((500.0,0.0),(0,0))
         

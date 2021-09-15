@@ -8,7 +8,10 @@ class TickingEntity:
         
     #Main game logic
     def tick(self):
-        raise NotImplementedError()
+        pass
+
+    def update_graphics_model(self):
+        pass
 
     #Rate limits a function to at most time seconds
     def at_most(self, task_name, func, limit):

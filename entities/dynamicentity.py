@@ -19,9 +19,4 @@ class DynamicEntity(PhysicsEntity, TickingEntity):
         physics_poly.mass = 1.0
         physics_poly.elasticity = 0.5
         self.physics_components.append(physics_poly)
-
-  
-    #Main game logic
-    def tick(self):
-        self.update_graphics_model()
         

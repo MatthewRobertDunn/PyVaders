@@ -58,6 +58,7 @@ class MyApp(ShowBase):
         TickingEntity.delta_time = dt  #delta time
         for entity in self.entities:
             entity.tick()
+            entity.update_graphics_model()
         self.despawn_entities()
         self.spawn_entities()
         self.physics.step(0.01)
