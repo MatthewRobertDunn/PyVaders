@@ -16,9 +16,15 @@ from entities.tickingentity import TickingEntity
 
 
 coord_system = ConfigVariableString("coordinate-system")
-print(coord_system)
 coord_system.setValue("yup-right")
 
+#Uncomment this to use dx
+r = ConfigVariableString("load-display")
+r.setValue("pandadx9")
+
+#uncomment this to remove vsync
+#s = ConfigVariableString("sync-video")
+#s.setValue("false")
 
 class MyApp(ShowBase):
     def __init__(self):
@@ -61,7 +67,7 @@ class MyApp(ShowBase):
         print(str(x)+":"+str(y)+":"+str(z))
 
     def physics_task(self, task):
-        dt = round(globalClock.getDt(),3)
+        dt = round(globalClock.getDt(),4)
         self.keys.poll(base.mouseWatcherNode)
         TickingEntity.time = task.time #global time
         TickingEntity.delta_time = dt  #delta time
@@ -70,7 +76,7 @@ class MyApp(ShowBase):
             entity.update_graphics_model()
         self.despawn_entities()
         self.spawn_entities()
-        self.physics.step(0.01)
+        self.physics.step(dt)
         return Task.cont
 
     def squares(self):
