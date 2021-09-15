@@ -1,6 +1,6 @@
 #An entity that receives ticks
 class TickingEntity:
-    dt = 0.0        #Time passed per frame, secs
+    delta_time = 0.0        #Time passed per frame, secs
     time = 0.0      #time passed since simulation start, secs
     def __init__(self):
         self.at_most_funcs = {}
@@ -14,4 +14,4 @@ class TickingEntity:
             func()
             self.at_most_funcs[func] = 0.0
         else:
-            self.at_most_funcs[func] += TickingEntity.dt
+            self.at_most_funcs[func] += TickingEntity.delta_time

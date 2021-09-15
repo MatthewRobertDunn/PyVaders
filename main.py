@@ -55,7 +55,7 @@ class MyApp(ShowBase):
         dt = round(globalClock.getDt(),3)
         self.keys.poll(base.mouseWatcherNode)
         TickingEntity.time = task.time #global time
-        TickingEntity.dt = dt  #delta time
+        TickingEntity.delta_time = dt  #delta time
         for entity in self.entities:
             entity.tick()
         self.despawn_entities()
