@@ -54,8 +54,9 @@ class MyApp(ShowBase):
     def physics_task(self, task):
         dt = round(globalClock.getDt(),3)
         self.keys.poll(base.mouseWatcherNode)
+        TickingEntity.time = task.time #global time
+        TickingEntity.dt = dt  #delta time
         for entity in self.entities:
-            entity.dt = dt
             entity.tick()
         self.despawn_entities()
         self.spawn_entities()

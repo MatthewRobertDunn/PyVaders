@@ -12,4 +12,4 @@ class TickingEntity:
             func()
             self.at_most_funcs[func] = 0.0
         else:
-            self.at_most_funcs[func] += self.dt
+            self.at_most_funcs[func] += TickingEntity.dt
