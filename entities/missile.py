@@ -10,7 +10,8 @@ class Missile(DynamicEntity):
         self.create_dynamic_rectangle_body(position, 0.25, 1.0)     #Missiles are narrow and long
 
     def create_graphics_model(self):
-        self.create_card(0.25,1.0)  #Create a 5x5 card
+        self.create_card(1.0,1.0)  #Create a 5x5 card
+        self.load_texture("gfx/missile00.png")
 
     #Main game logic
     def tick(self):
