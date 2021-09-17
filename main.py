@@ -19,8 +19,8 @@ coord_system = ConfigVariableString("coordinate-system")
 coord_system.setValue("yup-right")
 
 #Uncomment this to use dx
-r = ConfigVariableString("load-display")
-r.setValue("pandadx9")
+#r = ConfigVariableString("load-display")
+#r.setValue("pandadx9")
 
 #uncomment this to remove vsync
 #s = ConfigVariableString("sync-video")
@@ -51,7 +51,6 @@ class MyApp(ShowBase):
         self.taskMgr.add(self.physics_task, "physics",None,None,-100)
         h = self.physics.add_collision_handler(1, 1)
         h.separate = self.on_collision
-    
 
     def on_collision(self, arbiter, space, data):
         entity1 = arbiter.shapes[0].entity

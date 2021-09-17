@@ -21,7 +21,7 @@ class PhysicsEntity:
     def create_graphics_model(self):
         #self.render_model = self.loader.loadModel("square2.egg")
         self.create_card(2.0,2.0)
-        self.load_texture("alien.png")
+        self.load_texture("gfx/alien.png")
         self.update_graphics_model()
 
 
@@ -40,19 +40,19 @@ class PhysicsEntity:
 
 
     def create_dynamic_rectangle_body(self,position, width, height, collisions = True):
-        self.physics_body = pymunk.Body()        # Create a Body
+        self._create_rectangle_body(position,width,height,collisions,pymunk.Body.DYNAMIC)
+
+    def create_static_rectangle_body(self,position, width, height, collisions = True):
+        self._create_rectangle_body(position,width,height,collisions,pymunk.Body.STATIC)
+
+    def create_kinematic_rectangle_body(self,position, width, height, collisions = True):
+        self._create_rectangle_body(position,width,height,collisions,pymunk.Body.KINEMATIC)
+
+    def _create_rectangle_body(self,position, width, height, collisions, body_type):
+        self.physics_body = pymunk.Body(body_type = body_type)        # Create a Body
         self.physics_body.position = position     # Set the position of the body
         physics_poly = pymunk.Poly.create_box(self.physics_body, (width,height))
         physics_poly.density = 1.0
-        if collisions:
-            physics_poly.collision_type = 1
-        physics_poly.entity = self
-        self.physics_components.append(physics_poly)
-
-    def create_static_rectangle_body(self,position, width, height, collisions = True):
-        self.physics_body = pymunk.Body(body_type=pymunk.Body.STATIC)        # Create a Body
-        self.physics_body.position = position     # Set the position of the body
-        physics_poly = pymunk.Poly.create_box(self.physics_body, (width, height))
         if collisions:
             physics_poly.collision_type = 1
         physics_poly.entity = self
