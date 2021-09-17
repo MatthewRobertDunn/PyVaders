@@ -13,7 +13,7 @@ import pymunk
 from entities.dynamicentity import DynamicEntity
 from entities.physicsentity import PhysicsEntity
 from entities.tickingentity import TickingEntity
-
+from entities.alien import Alien
 
 coord_system = ConfigVariableString("coordinate-system")
 coord_system.setValue("yup-right")
@@ -50,7 +50,7 @@ class MyApp(ShowBase):
         self.squares()
         self.taskMgr.add(self.physics_task, "physics",None,None,-100)
         h = self.physics.add_collision_handler(1, 1)
-        h.separate = self.on_collision
+        h.post_solve = self.on_collision
 
     def on_collision(self, arbiter, space, data):
         entity1 = arbiter.shapes[0].entity
@@ -90,7 +90,7 @@ class MyApp(ShowBase):
         #entity = DynamicEntity(context)
         #self.spawn_entity(entity)
 
-        entity = PhysicsEntity(context,(1.4,-10))      
+        entity = Alien(context,(1.4,5))      
         self.spawn_entity(entity)
 
         entity = PlayerEntity(context,(0,-15))

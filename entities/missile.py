@@ -1,5 +1,6 @@
 import pymunk
 from entities.dynamicentity import DynamicEntity
+from entities.takesdamage import TakesDamage
 #A basic missile entity
 class Missile(DynamicEntity):
     def __init__(self, context, position = (0,0)):
@@ -18,3 +19,7 @@ class Missile(DynamicEntity):
         self.physics_body.apply_force_at_local_point(force=(0.0,10.0),point=(0,0))
         self.once_after("delete", lambda: self.context.despawn_entity(self),5.0)  #delete rocket after 1 second
         
+
+    def on_collision(self, other):
+        if(isinstance(other,TakesDamage)):
+            other.take_damage(self,10.0)    #Cause 10 damage
