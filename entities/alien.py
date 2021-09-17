@@ -14,7 +14,7 @@ class Alien(DynamicEntity, TakesDamage):
         self.load_texture("gfx/alien.png")
 
     def take_damage(self, source, amount):
-        print("ouch")
+        self.despawn()
 
     #Main game logic
     def tick(self):

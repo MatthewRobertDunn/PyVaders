@@ -13,6 +13,9 @@ class TickingEntity:
     def update_graphics_model(self):
         pass
 
+    def despawn(self):
+        self.context.despawn_entity(self)
+
     #Rate limits a function to at most time seconds
     def at_most(self, task_name, func, limit):
         if(TickingEntity.time - self.at_most_funcs.get(task_name, -limit) >= limit):

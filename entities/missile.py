@@ -17,9 +17,14 @@ class Missile(DynamicEntity):
     #Main game logic
     def tick(self):
         self.physics_body.apply_force_at_local_point(force=(0.0,10.0),point=(0,0))
-        self.once_after("delete", lambda: self.context.despawn_entity(self),5.0)  #delete rocket after 1 second
+        self.once_after("explode", self.explode,5.0)  #delete rocket after 1 second
         
 
     def on_collision(self, other):
         if(isinstance(other,TakesDamage)):
             other.take_damage(self,10.0)    #Cause 10 damage
+        self.explode()
+
+    def explode(self):
+        #No explosion yet
+        self.despawn()
