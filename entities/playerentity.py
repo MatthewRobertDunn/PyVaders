@@ -33,4 +33,5 @@ class PlayerEntity(DynamicEntity):
         
     def fire_missile(self):
         missile = Missile(self.context,(self.physics_body.position[0], self.physics_body.position[1]+2.5))
+        missile.physics_body.velocity = self.physics_body.velocity
         self.context.spawn_entity(missile)
