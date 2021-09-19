@@ -16,8 +16,9 @@ class PlayerEntity(DynamicEntity):
         self.physics_components.append(move_joint)
 
     def create_graphics_model(self):
-        self.create_card(5.0,5.0)  #Create a 5x5 card
-        self.load_texture("gfx/p38_lvl_3_d4.png")
+        #self.draw.create_card(5.0,5.0)  #Create a 5x5 card
+        #self.draw.load_texture("gfx/p38_lvl_3_d4.png")
+        self.draw.create_debug_shape(self.physics_poly)
 
     #Main game logic
     def tick(self):

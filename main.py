@@ -1,4 +1,5 @@
 
+from engine.graphic import Graphic
 from keys import GameKeys
 from entities.playerentity import PlayerEntity
 from gamecontext import GameContext
@@ -109,8 +110,8 @@ class MyApp(ShowBase):
     # to avoid race conditions to do with entity creation order
     def _spawn_entity(self, entity):
         #Add entity to renderer if it has any render model
-        if entity.render_model is not None:
-            entity.render_model.reparent_to(self.render_node)
+        if isinstance(entity,Graphic) is not None:
+            entity.draw.render_model.reparent_to(self.render_node)
 
         #add entity to physics simulation if it has a physics body.
         if (entity.physics_body is not None):
@@ -147,10 +148,8 @@ class MyApp(ShowBase):
         if (entity.physics_body is not None):
             self.physics.remove(entity.physics_body) # add to physics world
 
-        if entity.render_model is not None:
-            entity.render_model.removeNode()
-
-
+        if isinstance(self, Graphic) is not None:
+            entity.draw.render_model.removeNode()
 
 app = MyApp()
 app.run()

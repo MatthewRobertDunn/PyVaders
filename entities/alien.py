@@ -10,8 +10,8 @@ class Alien(DynamicEntity, TakesDamage):
         self.create_kinematic_rectangle_body(position, 2.0, 1.9)     #Missiles are narrow and long
 
     def create_graphics_model(self):
-        self.create_card(2.0,2.0)  #Create a 5x5 card
-        self.load_texture("gfx/alien.png")
+        self.draw.create_card(2.0,2.0)  #Create a 5x5 card
+        self.draw.load_texture("gfx/alien.png")
 
     def take_damage(self, source, amount):
         self.despawn()
