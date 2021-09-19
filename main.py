@@ -48,10 +48,10 @@ class MyApp(ShowBase):
         self.physics = pymunk.Space()      # Create a Space which contain the simulation
         self.physics.damping = 0.2
         self.physics.gravity = 0,-9.81      # Set its gravity
-        self.squares()
         self.taskMgr.add(self.physics_task, "physics",None,None,-100)
         h = self.physics.add_collision_handler(1, 1)
         h.post_solve = self.on_collision
+        self.create_world()
 
     def on_collision(self, arbiter, space, data):
         entity1 = arbiter.shapes[0].entity
@@ -79,7 +79,7 @@ class MyApp(ShowBase):
         self.physics.step(dt)
         return Task.cont
 
-    def squares(self):
+    def create_world(self):
         #Provide game entities with functions for spawning entities into the world and loading assets.
         context = GameContext()
         context.loader = self.loader
@@ -91,10 +91,12 @@ class MyApp(ShowBase):
         #entity = DynamicEntity(context)
         #self.spawn_entity(entity)
 
-        entity = Alien(context,(1.4,5))      
-        self.spawn_entity(entity)
+        for x in range(-25,25,3):
+            for y in range(12,24,4):
+                entity = Alien(context,(x,y))      
+                self.spawn_entity(entity)
 
-        entity = PlayerEntity(context,(0,-15))
+        entity = PlayerEntity(context,(0,-20))
         self.spawn_entity(entity)
 
     #creates all queued entities
