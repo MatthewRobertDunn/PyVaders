@@ -1,6 +1,9 @@
 #class that adds drawing capability
 from panda3d.core import CardMaker, NodePath,TransparencyAttrib
-from panda3d.core import LineSegs
+from panda3d.core import LineSegs, PNMImage
+from pymunk.autogeometry import march_hard
+from pymunk import BB
+
 import math
 class Graphic:
     cardMaker = CardMaker("MapCardMaker") #thing used to make a graphical rectangles.
@@ -36,3 +39,20 @@ class Graphic:
     def update_graphics_model(self, body):
         self.render_model.set_pos(body.position[0], body.position[1], -2.0)
         self.render_model.set_hpr(0,0,math.degrees(-body.angle))  # is this right? seems like it
+
+
+
+    def texture_to_geometry(self, width, height, texture):
+        image = PNMImage()
+        texture.store(image)
+        bb = BB(-width*0.5, height*0.5, width*0.5, -height*0.5)
+        segments = []
+        
+        def sample_func(point):
+            x = int((point.x / width) * image.getXSize() + width*0.5)
+            y = int((point.y / height) * image.getYSize() + height*0.5)
+            return 0 if image.getAlphaVal(x,y) == 0 else 1
+    
+        polylines = march_hard(bb,image.getXSize(),image.getYSize(),0.5,sample_func)
+        return polylines
+        

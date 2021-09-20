@@ -1,16 +1,16 @@
 
 from engine.graphic import Graphic
+from entities.entity import Entity
 import pymunk
 import math
 from panda3d.core import CardMaker, NodePath,TransparencyAttrib
 from panda3d.core import LineSegs
 #A basic dynamic physics game entity
-class PhysicsEntity:
+class PhysicsEntity(Entity):
     def __init__(self, context, position = (0,0)):
-        self.context = context
-        self.loader = context.loader
         self.keys = context.keys
         self.physics_components = []  #contains other physics components, constraints, joints, etc
+        self.context = context
         self.draw = Graphic(context.loader,self)
         self.create_physics_body(position)
         self.create_graphics_model()
@@ -21,7 +21,6 @@ class PhysicsEntity:
 
     #Create the visual component of the game entity
     def create_graphics_model(self):
-        #self.render_model = self.loader.loadModel("square2.egg")
         self.draw.create_card(2.0,2.0)
         self.draw.load_texture("gfx/alien.png")
         self.draw.update_graphics_model()

@@ -5,6 +5,7 @@ class TickingEntity:
     def __init__(self):
         self.at_most_funcs = {}
         self.after_funcs = {}
+        self.is_alive = True
         
     #Main game logic
     def tick(self):
@@ -14,6 +15,7 @@ class TickingEntity:
         pass
 
     def despawn(self):
+        self.is_alive = False
         self.context.despawn_entity(self)
 
     #Rate limits a function to at most time seconds

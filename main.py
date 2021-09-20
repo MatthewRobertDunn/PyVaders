@@ -107,6 +107,7 @@ class MyApp(ShowBase):
     #queues an entity for creation
     def spawn_entity(self, entity):
         self.created_entities.append(entity)
+        
     
     #Internal spawn entities, this is only called once all entities are ticked 
     # to avoid race conditions to do with entity creation order
@@ -128,6 +129,8 @@ class MyApp(ShowBase):
             self.entities.append(entity)
         else:
             self.statics.append(entity)
+
+        entity.on_spawn()
 
 
     def despawn_entities(self):
