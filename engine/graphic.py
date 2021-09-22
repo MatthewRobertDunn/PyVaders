@@ -1,8 +1,9 @@
 #class that adds drawing capability
 from panda3d.core import CardMaker, NodePath,TransparencyAttrib
 from panda3d.core import LineSegs, PNMImage
-from pymunk.autogeometry import march_hard
-from pymunk import BB
+from pymunk.autogeometry import march_hard, march_soft, simplify_vertexes
+from pymunk import BB, Segment
+import matplotlib.pyplot as plt
 
 import math
 class Graphic:
@@ -17,9 +18,10 @@ class Graphic:
         self.render_model = NodePath(self.cardMaker.generate())
 
     def load_texture(self, file):
-        texture = self.loader.loadTexture(file)
+        self.texture = self.loader.loadTexture(file)
         self.render_model.setTransparency(TransparencyAttrib.MAlpha, 1)
-        self.render_model.setTexture(texture)
+        self.render_model.setTexture(self.texture)
+        
 
     #draws an outline of the given physics body using opengl line segs
     def create_debug_shape(self, poly):
@@ -45,14 +47,32 @@ class Graphic:
     def texture_to_geometry(self, width, height, texture):
         image = PNMImage()
         texture.store(image)
-        bb = BB(-width*0.5, height*0.5, width*0.5, -height*0.5)
-        segments = []
+        bb = BB(-width*0.5, -height*0.5, width*0.5, height*0.5)
         
+        xsize = image.getXSize() - 1
+        ysize = image.getYSize() - 1
         def sample_func(point):
-            x = int((point.x / width) * image.getXSize() + width*0.5)
-            y = int((point.y / height) * image.getYSize() + height*0.5)
+            x = int((point[0] / width) * xsize  + xsize*0.5)
+            y = int(ysize - ((point[1] / height) * ysize + ysize*0.5))
             return 0 if image.getAlphaVal(x,y) == 0 else 1
     
-        polylines = march_hard(bb,image.getXSize(),image.getYSize(),0.5,sample_func)
-        return polylines
+        polylines = march_soft(bb,32,32,0.5,sample_func)
+
+        segments = []
+
+        for poly_line in polylines:
+            simple_line = simplify_vertexes(poly_line,0.1)
+            for i in range(len(simple_line) - 1):
+                a = simple_line[i]
+                b = simple_line[i + 1]
+                segment = Segment(self.entity.physics_body, a, b, 1)  
+                segment.entity = self.entity
+                segments.append(segment)
+        #for line in polylines:
+            #for points in line:
+                #plt.scatter(points.x, points.y,marker="o")
+                #plt.plot([a[0],b[0]],[a[1],b[1]], marker = 'o')
+        #plt.show()
+
+        return segments
         
