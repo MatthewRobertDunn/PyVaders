@@ -1,4 +1,5 @@
 
+from entities.destructibleterrain import DestructibleTerrain
 from engine.graphic import Graphic
 from keys import GameKeys
 from entities.playerentity import PlayerEntity
@@ -99,6 +100,10 @@ class MyApp(ShowBase):
         entity = PlayerEntity(context,(0,-20))
         self.spawn_entity(entity)
 
+        entity = DestructibleTerrain(context,(0,0))
+        self.spawn_entity(entity)
+        
+
     #creates all queued entities
     def spawn_entities(self):
         while self.created_entities:
@@ -146,7 +151,7 @@ class MyApp(ShowBase):
         else:
             self.statics.remove(entity)
 
-        if(entity.physics_components):
+        if(entity.physics_components is not None):
             for component in entity.physics_components:
                 self.physics.remove(component)
 

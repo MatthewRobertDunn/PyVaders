@@ -15,8 +15,9 @@ class TickingEntity:
         pass
 
     def despawn(self):
-        self.is_alive = False
-        self.context.despawn_entity(self)
+        if(self.is_alive):
+            self.is_alive = False
+            self.context.despawn_entity(self)
 
     #Rate limits a function to at most time seconds
     def at_most(self, task_name, func, limit):

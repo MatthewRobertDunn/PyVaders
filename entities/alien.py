@@ -11,7 +11,7 @@ class Alien(DynamicEntity, TakesDamage):
 
     def create_graphics_model(self):
         self.draw.create_card(2.0,2.0)  #Create a 5x5 card
-        self.draw.load_texture("gfx/alien.png")
+        self.draw.set_texture_from_file("gfx/alien.png")
 
     def take_damage(self, source, amount):
         self.despawn()

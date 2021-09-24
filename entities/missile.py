@@ -12,7 +12,7 @@ class Missile(DynamicEntity):
 
     def create_graphics_model(self):
         self.draw.create_card(1.0,1.0)  #Create a 5x5 card
-        self.draw.load_texture("gfx/missile00.png")
+        self.draw.set_texture_from_file("gfx/missile00.png")
 
     #Main game logic
     def tick(self):

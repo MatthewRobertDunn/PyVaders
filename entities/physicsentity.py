@@ -2,9 +2,6 @@
 from engine.graphic import Graphic
 from entities.entity import Entity
 import pymunk
-import math
-from panda3d.core import CardMaker, NodePath,TransparencyAttrib
-from panda3d.core import LineSegs
 #A basic dynamic physics game entity
 class PhysicsEntity(Entity):
     def __init__(self, context, position = (0,0)):

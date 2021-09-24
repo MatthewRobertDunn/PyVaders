@@ -17,11 +17,13 @@ class Graphic:
         self.cardMaker.setFrame(-(width / 2.0), (width / 2.0), -(height / 2.0), (height / 2.0))
         self.render_model = NodePath(self.cardMaker.generate())
 
-    def load_texture(self, file):
-        self.texture = self.loader.loadTexture(file)
+    def set_texture_from_file(self, file):
+        self.texture = self.load_texture(file)
         self.render_model.setTransparency(TransparencyAttrib.MAlpha, 1)
         self.render_model.setTexture(self.texture)
         
+    def load_texture(self, file):
+        return self.loader.load_texture(file)
 
     #draws an outline of the given physics body using opengl line segs
     def create_debug_shape(self, poly):
@@ -58,21 +60,22 @@ class Graphic:
     
         polylines = march_soft(bb,32,32,0.5,sample_func)
 
-        segments = []
+        lines = []
 
         for poly_line in polylines:
             simple_line = simplify_vertexes(poly_line,0.1)
             for i in range(len(simple_line) - 1):
                 a = simple_line[i]
                 b = simple_line[i + 1]
-                segment = Segment(self.entity.physics_body, a, b, 1)  
-                segment.entity = self.entity
-                segments.append(segment)
-        #for line in polylines:
-            #for points in line:
-                #plt.scatter(points.x, points.y,marker="o")
-                #plt.plot([a[0],b[0]],[a[1],b[1]], marker = 'o')
-        #plt.show()
+                lines.append((a,b))
 
-        return segments
-        
+        self.debug_draw_lines(lines)        
+        return lines
+
+
+    def debug_draw_lines(self,lines):
+        for line in lines:
+            a = line[0]
+            b = line[1]
+            plt.plot([a[0],b[0]],[a[1],b[1]], marker = 'o')
+        plt.show()
