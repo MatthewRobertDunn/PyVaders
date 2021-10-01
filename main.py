@@ -58,10 +58,11 @@ class MyApp(ShowBase):
     def on_collision(self, arbiter, space, data):
         entity1 = arbiter.shapes[0].entity
         entity2 = arbiter.shapes[1].entity
-        contact1 = arbiter.contact_point_set.points[0].point_a
-        contact2 = arbiter.contact_point_set.points[0].point_b
-        entity1.on_collision(entity2, contact1, contact2)
-        entity2.on_collision(entity1, contact2, contact1)
+        if entity1.is_alive and entity2.is_alive:
+            contact1 = arbiter.contact_point_set.points[0].point_a
+            contact2 = arbiter.contact_point_set.points[0].point_b
+            entity1.on_collision(entity2, contact1, contact2)
+            entity2.on_collision(entity1, contact2, contact1)
 
     def ShowCamPos(self):
 #        position = environ.getPos()

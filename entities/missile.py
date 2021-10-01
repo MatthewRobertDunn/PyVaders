@@ -21,7 +21,7 @@ class Missile(DynamicEntity):
         
 
     def on_collision(self, other, self_contact, other_contact):
-        if(isinstance(other,TakesDamage)):
+        if isinstance(other,TakesDamage):
             other.take_damage(self,10.0, other_contact)    #Cause 10 damage
         self.explode()
 
