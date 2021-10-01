@@ -35,6 +35,7 @@ class MyApp(ShowBase):
         self.statics = []
         self.created_entities = []  
         self.deleted_entities = []
+        self.physics_replace_entities = []
         self.keys = GameKeys()
         base.setFrameRateMeter(True)
         #base.messenger.toggleVerbose()
@@ -57,8 +58,10 @@ class MyApp(ShowBase):
     def on_collision(self, arbiter, space, data):
         entity1 = arbiter.shapes[0].entity
         entity2 = arbiter.shapes[1].entity
-        entity1.on_collision(entity2)
-        entity2.on_collision(entity1)
+        contact1 = arbiter.contact_point_set.points[0].point_a
+        contact2 = arbiter.contact_point_set.points[0].point_b
+        entity1.on_collision(entity2, contact1, contact2)
+        entity2.on_collision(entity1, contact2, contact1)
 
     def ShowCamPos(self):
 #        position = environ.getPos()
@@ -76,6 +79,7 @@ class MyApp(ShowBase):
             entity.tick()
             entity.update_graphics_model()
         self.despawn_entities()
+        self.replace_physics()
         self.spawn_entities()
         self.physics.step(dt)
         return Task.cont
@@ -87,6 +91,7 @@ class MyApp(ShowBase):
         context.spawn_entity = self.spawn_entity
         context.despawn_entity = self.despawn_entity
         context.static_body = self.physics.static_body #This is required for creating some joints.
+        context.replace_physics_components = self.replace_physics_components
         context.keys = self.keys
 
         #entity = DynamicEntity(context)
@@ -113,7 +118,6 @@ class MyApp(ShowBase):
     def spawn_entity(self, entity):
         self.created_entities.append(entity)
         
-    
     #Internal spawn entities, this is only called once all entities are ticked 
     # to avoid race conditions to do with entity creation order
     def _spawn_entity(self, entity):
@@ -125,10 +129,9 @@ class MyApp(ShowBase):
         if (entity.physics_body is not None):
             self.physics.add(entity.physics_body) # add to physics world
         
-        if(entity.physics_components):
-            for component in entity.physics_components:
-                self.physics.add(component)
-        
+        #Add physics components.
+        self._add_components(entity)        
+
         #Include entity in game ticks if it supports receiving them.
         if isinstance(entity,TickingEntity):
             self.entities.append(entity)
@@ -136,6 +139,21 @@ class MyApp(ShowBase):
             self.statics.append(entity)
 
         entity.on_spawn()
+
+
+    def replace_physics_components(self, entity, new_components):
+        self.physics_replace_entities.append((entity,new_components))
+
+    def replace_physics(self):
+        while self.physics_replace_entities:
+            self._replace_physics(*self.physics_replace_entities.pop())
+
+    def _replace_physics(self, entity, new_components):
+        #Remove old components
+        self._remove_components(entity)
+        entity.physics_components = new_components
+        self._add_components(entity)
+
 
 
     def despawn_entities(self):
@@ -151,15 +169,25 @@ class MyApp(ShowBase):
         else:
             self.statics.remove(entity)
 
+        if (entity.physics_body is not None):
+            self.physics.remove(entity.physics_body) # add to physics world
+
+        self._remove_components(entity)
+
+        if isinstance(self, Graphic) is not None:
+            entity.draw.render_model.removeNode()
+
+
+    def _remove_components(self, entity):
         if(entity.physics_components is not None):
             for component in entity.physics_components:
                 self.physics.remove(component)
 
-        if (entity.physics_body is not None):
-            self.physics.remove(entity.physics_body) # add to physics world
 
-        if isinstance(self, Graphic) is not None:
-            entity.draw.render_model.removeNode()
+    def _add_components(self, entity):
+        if(entity.physics_components):
+            for component in entity.physics_components:
+                self.physics.add(component)
 
 app = MyApp()
 app.run()

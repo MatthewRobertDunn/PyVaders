@@ -20,9 +20,9 @@ class Missile(DynamicEntity):
         self.once_after("explode", self.explode,5.0)  #delete rocket after 1 second
         
 
-    def on_collision(self, other):
+    def on_collision(self, other, self_contact, other_contact):
         if(isinstance(other,TakesDamage)):
-            other.take_damage(self,10.0)    #Cause 10 damage
+            other.take_damage(self,10.0, other_contact)    #Cause 10 damage
         self.explode()
 
     def explode(self):

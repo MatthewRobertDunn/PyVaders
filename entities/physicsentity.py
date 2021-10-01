@@ -22,7 +22,7 @@ class PhysicsEntity(Entity):
         self.draw.load_texture("gfx/alien.png")
         self.draw.update_graphics_model()
 
-    def on_collision(self, other):
+    def on_collision(self, other, self_contact, other_contact):
         pass
 
     #returns the default physics polygon

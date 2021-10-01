@@ -69,9 +69,51 @@ class Graphic:
                 b = simple_line[i + 1]
                 lines.append((a,b))
 
-        self.debug_draw_lines(lines)        
+        #self.debug_draw_lines(lines)        
         return lines
 
+
+    def subtract_image(self, texture_coord, sub_image):
+        image = PNMImage()
+        self.texture.store(image)
+        image.setGreenVal(texture_coord[0],texture_coord[1],255)
+        self.texture.load(image)
+        self.render_model.setTexture(self.texture)
+
+    def load_image(self, file):
+        myImage = PNMImage()
+        myImage.read(file)
+        return myImage
+
+    def draw_circle(self, texture_coord, d):
+        image = PNMImage()
+        self.texture.store(image)
+        image.setGreenVal(texture_coord[0],texture_coord[1],255)
+        self.texture.load(image)
+        self.render_model.setTexture(self.texture)
+
+    def mult_image(self, sub_image, texture_coord):
+        image = PNMImage()
+        self.texture.store(image)
+        x_adj = int(sub_image.getXSize() * 0.5)
+        y_adj = int(sub_image.getYSize() * 0.5)
+        x = texture_coord[0] - x_adj
+        y = texture_coord[1] - y_adj
+        image.multSubImage(sub_image,x,y,0,0,sub_image.getXSize(),sub_image.getYSize(),1.0)
+
+        #image.multSubImage(sub_image,0,0,0,0,sub_image.getXSize(),sub_image.getYSize(),1.0)
+
+
+        self.texture.load(image)
+        self.render_model.setTexture(self.texture)
+
+
+    def model_coord_to_texture_coord(self, model_coord, model_width, model_height):
+        xsize = self.texture.getXSize() - 1
+        ysize = self.texture.getYSize() - 1
+        x = int((model_coord[0] / model_width) * xsize  + xsize*0.5)
+        y = int(ysize - ((model_coord[1] / model_height) * ysize + ysize*0.5))
+        return (x,y)
 
     def debug_draw_lines(self,lines):
         for line in lines:
