@@ -137,7 +137,7 @@ class MyApp(ShowBase):
             self.entities.append(entity)
         else:
             self.statics.append(entity)
-
+        entity.is_alive = True
         entity.on_spawn()
 
 
@@ -161,7 +161,11 @@ class MyApp(ShowBase):
             self._despawn_entity(self.deleted_entities.pop())
 
     def despawn_entity(self, entity):
-        self.deleted_entities.append(entity)
+        if entity.is_alive == False:
+            return
+        else:
+            entity.is_alive = False
+            self.deleted_entities.append(entity)
 
     def _despawn_entity(self, entity):
         if isinstance(entity,TickingEntity):

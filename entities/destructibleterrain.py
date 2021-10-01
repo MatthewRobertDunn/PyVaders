@@ -11,7 +11,7 @@ class DestructibleTerrain(PhysicsEntity, TakesDamage):
        self.physics_body.position = position     # Set the position of the body
     
     BODY_WIDTH = 8.0
-    BODY_HEIGHT = 8.0
+    BODY_HEIGHT = 12.0
 
     def create_graphics_model(self):
         self.draw.create_card(self.BODY_WIDTH,self.BODY_HEIGHT)
@@ -24,15 +24,16 @@ class DestructibleTerrain(PhysicsEntity, TakesDamage):
     def take_damage(self, source, amount, self_contact):
         text_coord = self.draw.model_coord_to_texture_coord(self_contact,self.BODY_WIDTH,self.BODY_HEIGHT)
         self.draw.mult_image(self.hole_image, text_coord)
-        #recreate physics body
+        #Get new physics segments
         new_segments = self.get_segments()
-        self.context.replace_physics_components(self,new_segments)
-        return super().take_damage(source, amount, self_contact)
-
+        if len(new_segments) == 0:
+            self.context.despawn_entity(self) #no physics segments, kill me.
+        else:
+            self.context.replace_physics_components(self,new_segments)
 
     def get_segments(self):
         segments = []
-        lines = self.draw.texture_to_geometry(8.0,8.0,self.draw.texture)
+        lines = self.draw.texture_to_geometry(self.BODY_WIDTH,self.BODY_HEIGHT,self.draw.texture)
         for line in lines:
             segment = pymunk.Segment(self.physics_body, line[0], line[1], 0.01)  
             segment.collision_type = 1
