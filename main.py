@@ -1,6 +1,7 @@
 
 from entities.destructibleterrain import DestructibleTerrain
 from engine.graphic import Graphic
+from entities.graphicsentity import GraphicsEntity
 from entities.physicsentity import PhysicsEntity
 from keys import GameKeys
 from entities.playerentity import PlayerEntity
@@ -117,7 +118,7 @@ class MyApp(ShowBase):
     # to avoid race conditions to do with entity creation order
     def _spawn_entity(self, entity):
         #Add entity to renderer if it has any render model
-        if isinstance(entity,Graphic):
+        if isinstance(entity,GraphicsEntity):
             entity.draw.render_model.reparent_to(self.render_node)
 
         #add entity to physics simulation if it has a physics body.

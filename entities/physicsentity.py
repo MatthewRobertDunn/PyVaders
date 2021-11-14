@@ -6,7 +6,7 @@ import pymunk
 from entities.graphicsentity import GraphicsEntity
 #Indicates an entity supports the physics trait
 class PhysicsEntity(Entity,GraphicsEntity):
-    def __init__(self, context, position = (0,0), **kwargs):
+    def __init__(self, *, context, position = (0,0), **kwargs):
         super().__init__(context=context,**kwargs)
         self.keys = context.keys
         self.physics_components = []  #contains other physics components, constraints, joints, etc

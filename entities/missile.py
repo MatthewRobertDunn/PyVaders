@@ -3,8 +3,8 @@ from entities.dynamicentity import DynamicEntity
 from entities.takesdamage import TakesDamage
 #A basic missile entity
 class Missile(DynamicEntity):
-    def __init__(self, context, position = (0,0)):
-        super().__init__(context,position)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     #Create the physics component of the game entity.
     def create_physics_body(self, position):

@@ -3,8 +3,8 @@ import pymunk
 from entities.physicsentity import PhysicsEntity
 from entities.takesdamage import TakesDamage
 class DestructibleTerrain(PhysicsEntity, TakesDamage):
-    def __init__(self, context, position=(0,0)):
-        super().__init__(context, position=position)
+    def __init__(self,*, context, position=(0,0), **kwargs):
+        super().__init__(context=context, position=position, **kwargs)
         
     def create_physics_body(self, position):
        self.physics_body = pymunk.Body(body_type=pymunk.Body.STATIC)        # Create a Body
