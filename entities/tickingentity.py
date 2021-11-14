@@ -3,7 +3,7 @@ class TickingEntity:
     delta_time = 0.0        #Time passed per frame, secs
     time = 0.0      #time passed since simulation start, secs
     def __init__(self, **kwargs):
-        
+        super().__init__(**kwargs)
         self.at_most_funcs = {}
         self.after_funcs = {}
 
