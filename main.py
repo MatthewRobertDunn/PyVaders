@@ -1,6 +1,7 @@
 
 from entities.destructibleterrain import DestructibleTerrain
 from engine.graphic import Graphic
+from entities.physicsentity import PhysicsEntity
 from keys import GameKeys
 from entities.playerentity import PlayerEntity
 from gamecontext import GameContext
@@ -12,10 +13,8 @@ from direct.task import Task
 from panda3d.core import *
 from panda3d.core import ConfigVariableString
 import pymunk
-from entities.dynamicentity import DynamicEntity
-from entities.physicsentity import PhysicsEntity
 from entities.tickingentity import TickingEntity
-from entities.alien import Alien
+from entities.alienwave import AlienWave
 
 coord_system = ConfigVariableString("coordinate-system")
 coord_system.setValue("yup-right")
@@ -95,18 +94,13 @@ class MyApp(ShowBase):
         context.replace_physics_components = self.replace_physics_components
         context.keys = self.keys
 
-        #entity = DynamicEntity(context)
-        #self.spawn_entity(entity)
-
-        for x in range(-25,25,3):
-            for y in range(12,24,4):
-                entity = Alien(context,(x,y))      
-                self.spawn_entity(entity)
-
-        entity = PlayerEntity(context,(0,-20))
+        entity = AlienWave(context = context)
         self.spawn_entity(entity)
 
-        entity = DestructibleTerrain(context,(0,0))
+        entity = PlayerEntity(context = context,position = (0,-20))
+        self.spawn_entity(entity)
+
+        entity = DestructibleTerrain(context = context, position = (0,0))
         self.spawn_entity(entity)
         
 
@@ -123,15 +117,14 @@ class MyApp(ShowBase):
     # to avoid race conditions to do with entity creation order
     def _spawn_entity(self, entity):
         #Add entity to renderer if it has any render model
-        if isinstance(entity,Graphic) is not None:
+        if isinstance(entity,Graphic):
             entity.draw.render_model.reparent_to(self.render_node)
 
         #add entity to physics simulation if it has a physics body.
-        if (entity.physics_body is not None):
+        if (isinstance(entity, PhysicsEntity)):
             self.physics.add(entity.physics_body) # add to physics world
-        
-        #Add physics components.
-        self._add_components(entity)        
+            #Add physics components.
+            self._add_components(entity)        
 
         #Include entity in game ticks if it supports receiving them.
         if isinstance(entity,TickingEntity):

@@ -2,10 +2,11 @@
 class TickingEntity:
     delta_time = 0.0        #Time passed per frame, secs
     time = 0.0      #time passed since simulation start, secs
-    def __init__(self):
+    def __init__(self, **kwargs):
+        
         self.at_most_funcs = {}
         self.after_funcs = {}
-        
+
     #Main game logic
     def tick(self):
         pass

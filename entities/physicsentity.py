@@ -2,13 +2,15 @@
 from engine.graphic import Graphic
 from entities.entity import Entity
 import pymunk
-#A basic dynamic physics game entity
-class PhysicsEntity(Entity):
-    def __init__(self, context, position = (0,0)):
+
+from entities.graphicsentity import GraphicsEntity
+#Indicates an entity supports the physics trait
+class PhysicsEntity(Entity,GraphicsEntity):
+    def __init__(self, context, position = (0,0), **kwargs):
+        super().__init__(context=context,**kwargs)
         self.keys = context.keys
         self.physics_components = []  #contains other physics components, constraints, joints, etc
         self.context = context
-        self.draw = Graphic(context.loader,self)
         self.create_physics_body(position)
         self.create_graphics_model()
 

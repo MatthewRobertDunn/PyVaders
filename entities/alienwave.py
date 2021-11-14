@@ -5,5 +5,5 @@ class AlienWave(TickingEntity):
         self.context = context
 
 
-    def on_spawn():
+    def on_spawn(self):
         pass
