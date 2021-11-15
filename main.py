@@ -1,8 +1,9 @@
 
 from entities.destructibleterrain import DestructibleTerrain
+from entities.graphics_trait import GraphicsTrait
+from entities.physics_trait import PhysicsTrait
+from entities.ticking_trait import TickingTrait
 from engine.graphic import Graphic
-from entities.graphicsentity import GraphicsEntity
-from entities.physicsentity import PhysicsEntity
 from keys import GameKeys
 from entities.playerentity import PlayerEntity
 from gamecontext import GameContext
@@ -14,7 +15,6 @@ from direct.task import Task
 from panda3d.core import *
 from panda3d.core import ConfigVariableString
 import pymunk
-from entities.tickingentity import TickingEntity
 from entities.alienwave import AlienWave
 
 coord_system = ConfigVariableString("coordinate-system")
@@ -74,8 +74,8 @@ class MyApp(ShowBase):
     def physics_task(self, task):
         dt = round(globalClock.getDt(),4)
         self.keys.poll(base.mouseWatcherNode)
-        TickingEntity.time = task.time #global time
-        TickingEntity.delta_time = dt  #delta time
+        TickingTrait.time = task.time #global time
+        TickingTrait.delta_time = dt  #delta time
         for entity in self.entities:
             entity.tick()
             entity.update_graphics_model()
@@ -118,17 +118,17 @@ class MyApp(ShowBase):
     # to avoid race conditions to do with entity creation order
     def _spawn_entity(self, entity):
         #Add entity to renderer if it has any render model
-        if isinstance(entity,GraphicsEntity):
+        if isinstance(entity,GraphicsTrait):
             entity.draw.render_model.reparent_to(self.render_node)
 
         #add entity to physics simulation if it has a physics body.
-        if (isinstance(entity, PhysicsEntity)):
+        if (isinstance(entity, PhysicsTrait)):
             self.physics.add(entity.physics_body) # add to physics world
             #Add physics components.
             self._add_components(entity)        
 
         #Include entity in game ticks if it supports receiving them.
-        if isinstance(entity,TickingEntity):
+        if isinstance(entity,TickingTrait):
             self.entities.append(entity)
         else:
             self.statics.append(entity)
@@ -163,7 +163,7 @@ class MyApp(ShowBase):
             self.deleted_entities.append(entity)
 
     def _despawn_entity(self, entity):
-        if isinstance(entity,TickingEntity):
+        if isinstance(entity,TickingTrait):
             self.entities.remove(entity)
         else:
             self.statics.remove(entity)

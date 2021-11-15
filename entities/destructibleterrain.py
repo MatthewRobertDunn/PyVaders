@@ -1,8 +1,8 @@
 from entities.entity import Entity
 import pymunk
-from entities.physicsentity import PhysicsEntity
-from entities.takesdamage import TakesDamage
-class DestructibleTerrain(PhysicsEntity, TakesDamage):
+from entities.physics_trait import PhysicsTrait
+from entities.takesdamage_trait import TakesDamageTrait
+class DestructibleTerrain(PhysicsTrait, TakesDamageTrait):
     def __init__(self,*, context, position=(0,0), **kwargs):
         super().__init__(context=context, position=position, **kwargs)
         

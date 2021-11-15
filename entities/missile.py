@@ -1,8 +1,9 @@
 import pymunk
-from entities.dynamicentity import DynamicEntity
-from entities.takesdamage import TakesDamage
+
+from entities.dynamic_trait import DynamicTrait
+from entities.takesdamage_trait import TakesDamageTrait
 #A basic missile entity
-class Missile(DynamicEntity):
+class Missile(DynamicTrait):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
@@ -21,7 +22,7 @@ class Missile(DynamicEntity):
         
 
     def on_collision(self, other, self_contact, other_contact):
-        if isinstance(other,TakesDamage):
+        if isinstance(other,TakesDamageTrait):
             other.take_damage(self,10.0, other_contact)    #Cause 10 damage
         self.explode()
 

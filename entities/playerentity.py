@@ -1,11 +1,9 @@
 
 import pymunk
-import math
-from panda3d.core import CardMaker, NodePath,TransparencyAttrib
-from entities.dynamicentity import DynamicEntity
+from entities.dynamic_trait import DynamicTrait
 from entities.missile import Missile
 #A basic dynamic physics game entity
-class PlayerEntity(DynamicEntity):
+class PlayerEntity(DynamicTrait):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 

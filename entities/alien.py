@@ -1,7 +1,7 @@
-from entities.dynamicentity import DynamicEntity
+from entities.dynamic_trait import DynamicTrait
 from entities.takesdamage import TakesDamage
 #A little space invader alien
-class Alien(DynamicEntity, TakesDamage):
+class Alien(DynamicTrait, TakesDamage):
     def __init__(self, context, position = (0,0)):
         super().__init__(context,position)
 

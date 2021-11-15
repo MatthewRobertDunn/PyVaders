@@ -1,11 +1,11 @@
 
 import pymunk
 import math
-from entities.physicsentity import PhysicsEntity
-from entities.tickingentity import TickingEntity
+from entities.physics_trait import PhysicsTrait
+from entities.ticking_trait import TickingTrait
 
 #A basic dynamic physics game entity
-class DynamicEntity(PhysicsEntity, TickingEntity):
+class DynamicTrait(PhysicsTrait, TickingTrait):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
