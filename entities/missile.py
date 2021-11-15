@@ -4,9 +4,6 @@ from entities.dynamic_trait import DynamicTrait
 from entities.takesdamage_trait import TakesDamageTrait
 #A basic missile entity
 class Missile(DynamicTrait):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-
     #Create the physics component of the game entity.
     def create_physics_body(self, position):
         self.create_dynamic_rectangle_body(position, 0.25, 1.0)     #Missiles are narrow and long

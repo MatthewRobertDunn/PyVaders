@@ -2,9 +2,6 @@ from entities.dynamic_trait import DynamicTrait
 from entities.takesdamage import TakesDamage
 #A little space invader alien
 class Alien(DynamicTrait, TakesDamage):
-    def __init__(self, context, position = (0,0)):
-        super().__init__(context,position)
-
     #Create the physics component of the game entity.
     def create_physics_body(self, position):
         self.create_kinematic_rectangle_body(position, 2.0, 1.9)     #Missiles are narrow and long

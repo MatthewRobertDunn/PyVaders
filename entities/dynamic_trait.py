@@ -6,9 +6,6 @@ from entities.ticking_trait import TickingTrait
 
 #A basic dynamic physics game entity
 class DynamicTrait(PhysicsTrait, TickingTrait):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-
     #Create the physics component of the game entity.
     def create_physics_body(self, position):
         self.physics_body = pymunk.Body()        # Create a Body
