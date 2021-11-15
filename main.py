@@ -1,4 +1,5 @@
 
+from entities.alien import Alien
 from entities.destructibleterrain import DestructibleTerrain
 from entities.graphics_trait import GraphicsTrait
 from entities.physics_trait import PhysicsTrait
@@ -103,6 +104,9 @@ class MyApp(ShowBase):
 
         entity = DestructibleTerrain(context = context, position = (0,0))
         self.spawn_entity(entity)
+
+        alien = Alien(context=context, position=(0,-10))
+        self.spawn_entity(alien)
         
 
     #creates all queued entities

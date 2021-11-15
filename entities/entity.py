@@ -1,6 +1,7 @@
 class Entity:
     def __init__(self, *, context, **kwargs):
         self.context = context
+        self.is_alive = False
 
     def despawn(self):
         self.context.despawn_entity(self)
