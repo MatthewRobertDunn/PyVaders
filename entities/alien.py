@@ -1,4 +1,3 @@
-from entities.dynamic_trait import DynamicTrait
 from entities.physics_trait import PhysicsTrait
 from entities.takesdamage_trait import TakesDamageTrait
 #A little space invader alien
