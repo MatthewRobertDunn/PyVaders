@@ -155,9 +155,7 @@ class MyApp(ShowBase):
         self._remove_components(entity)
         entity.physics_components = new_components
         self._add_components(entity)
-
-
-
+            
     def despawn_entities(self):
         while self.deleted_entities:
             self._despawn_entity(self.deleted_entities.pop())
@@ -177,8 +175,7 @@ class MyApp(ShowBase):
 
         if (isinstance(entity, PhysicsTrait)):
             self.physics.remove(entity.physics_body) # add to physics world
-
-        self._remove_components(entity)
+            self._remove_components(entity)
 
         if isinstance(entity,GraphicsTrait):
             entity.draw.render_model.removeNode()
