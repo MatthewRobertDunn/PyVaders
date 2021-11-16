@@ -8,9 +8,11 @@ import matplotlib.pyplot as plt
 import math
 class Graphic:
     cardMaker = CardMaker("MapCardMaker") #thing used to make a graphical rectangles.
+    texture_cache = {}
     def __init__(self, loader, entity):
         self.entity = entity
         self.loader = loader
+        
 
         #Creates a rectangle out of polygons, useful for putting sprites on
     def create_card(self,width, height):
@@ -18,10 +20,18 @@ class Graphic:
         self.render_model = NodePath(self.cardMaker.generate())
 
     def set_texture_from_file(self, file):
-        self.texture = self.load_texture(file)
+        self.texture = self.load_texture_cache(file)
         self.render_model.setTransparency(TransparencyAttrib.MAlpha, 1)
         self.render_model.setTexture(self.texture)
         
+    def load_texture_cache(self, file):
+        if file in self.texture_cache:
+            return self.texture_cache[file]
+        else:
+            result = self.load_texture(file)
+            self.texture_cache[file] = result
+            return result
+    
     def load_texture(self, file):
         return self.loader.load_texture(file)
 
