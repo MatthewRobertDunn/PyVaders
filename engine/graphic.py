@@ -12,6 +12,7 @@ class Graphic:
     def __init__(self, loader, entity):
         self.entity = entity
         self.loader = loader
+        self.z_order = -2.0
 
         #Creates a rectangle out of polygons, useful for putting sprites on
     def create_card(self,width, height):
@@ -55,7 +56,7 @@ class Graphic:
 
       #Update graphics model to match the physics model
     def update_graphics_model(self, body):
-        self.render_model.set_pos(body.position[0], body.position[1], -2.0)
+        self.render_model.set_pos(body.position[0], body.position[1], self.z_order)
         self.render_model.set_hpr(0,0,math.degrees(-body.angle))  # is this right? seems like it
 
 

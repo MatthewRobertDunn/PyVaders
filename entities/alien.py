@@ -9,7 +9,7 @@ class Alien(PhysicsTrait, TakesDamageTrait):
     #Create graphics component
     def create_graphics_model(self):
         self.draw.create_card(2.0,2.0)
-        self.draw.set_texture_from_file("gfx/alien.png")
+        self.draw.set_texture_from_file("gfx/enemyship.png")
         self.update_graphics_model()
 
     #Die if we take damage

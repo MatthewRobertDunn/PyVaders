@@ -1,4 +1,3 @@
-
 from entities.alien import Alien
 from entities.destructibleterrain import DestructibleTerrain
 from entities.graphics_trait import GraphicsTrait
@@ -17,7 +16,6 @@ from panda3d.core import *
 from panda3d.core import ConfigVariableString
 import pymunk
 from entities.alienwave import AlienWave
-
 coord_system = ConfigVariableString("coordinate-system")
 coord_system.setValue("yup-right")
 
@@ -28,7 +26,6 @@ coord_system.setValue("yup-right")
 #uncomment this to remove vsync
 #s = ConfigVariableString("sync-video")
 #s.setValue("false")
-
 class MyApp(ShowBase):
     def __init__(self):
         ShowBase.__init__(self)
@@ -40,13 +37,20 @@ class MyApp(ShowBase):
         self.keys = GameKeys()
         base.setFrameRateMeter(True)
         #base.messenger.toggleVerbose()
-        # render.setShaderAuto()
         base.setBackgroundColor(0, 0, 0)
         lens = OrthographicLens()
         lens.setFilmSize(80*0.8, 60*0.8)  # Or whatever is appropriate for your scene
         base.cam.node().setLens(lens)
         base.cam.setPos(0,0,0)
+
         self.render_node = render.attachNewNode("Entire Screen")
+
+        dlight = DirectionalLight('directionalLight')
+        dlight.setDirection(Vec3(0, 0, -1)) # (towards right-back-bottom; should only illuminate front/left/top )
+        dlight.setColor(Vec4(1, 1, 1, 1))
+        dlightNP = render.attachNewNode(dlight)
+        render.setLight(dlightNP)
+
         self.accept('c',self.ShowCamPos)
         self.physics = pymunk.Space()      # Create a Space which contain the simulation
         self.physics.damping = 0.2
