@@ -14,12 +14,13 @@ class DestructibleTerrain(PhysicsTrait, TakesDamageTrait):
     def create_graphics_model(self):
         self.draw.create_card(self.BODY_WIDTH,self.BODY_HEIGHT)
         #self.draw.set_texture_from_file("gfx/asteroid.png")
-        self.draw.set_texture_from_file("gfx/asteroid.png")
+        self.draw.set_texture_from_file_no_cache("gfx/asteroid.png")
         self.hole_image = self.draw.load_image("gfx/hole.png")
         self.physics_components = self.get_segments()
         self.update_graphics_model()
         
     def take_damage(self, source, amount, self_contact):
+        self_contact = self.physics_body.world_to_local(self_contact)
         text_coord = self.draw.model_coord_to_texture_coord(self_contact,self.BODY_WIDTH,self.BODY_HEIGHT)
         self.draw.mult_image(self.hole_image, text_coord)
         #Get new physics segments

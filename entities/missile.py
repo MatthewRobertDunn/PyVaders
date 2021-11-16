@@ -20,7 +20,7 @@ class Missile(DynamicTrait):
 
     def on_collision(self, other, self_contact, other_contact):
         if isinstance(other,TakesDamageTrait):
-            other.take_damage(self,10.0, other_contact)    #Cause 10 damage
+            other.take_damage(self,10.0, self_contact)    #Cause 10 damage
         self.explode()
 
     def explode(self):

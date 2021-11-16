@@ -1,6 +1,6 @@
 #class that adds drawing capability
 from panda3d.core import CardMaker, NodePath,TransparencyAttrib
-from panda3d.core import LineSegs, PNMImage
+from panda3d.core import LineSegs, PNMImage, Texture
 from pymunk.autogeometry import march_hard, march_soft, simplify_vertexes
 from pymunk import BB, Segment
 import matplotlib.pyplot as plt
@@ -8,11 +8,10 @@ import matplotlib.pyplot as plt
 import math
 class Graphic:
     cardMaker = CardMaker("MapCardMaker") #thing used to make a graphical rectangles.
-    texture_cache = {}
+
     def __init__(self, loader, entity):
         self.entity = entity
         self.loader = loader
-        
 
         #Creates a rectangle out of polygons, useful for putting sprites on
     def create_card(self,width, height):
@@ -20,20 +19,25 @@ class Graphic:
         self.render_model = NodePath(self.cardMaker.generate())
 
     def set_texture_from_file(self, file):
-        self.texture = self.load_texture_cache(file)
+        self.texture = self.load_texture(file)
+        self.set_texture(self.texture)
+
+    def set_texture_from_file_no_cache(self, file):
+        self.texture = self.load_texture_no_cache(file)
+        self.set_texture(self.texture)
+
+    def set_texture(self, texture):
         self.render_model.setTransparency(TransparencyAttrib.MAlpha, 1)
-        self.render_model.setTexture(self.texture)
-        
-    def load_texture_cache(self, file):
-        if file in self.texture_cache:
-            return self.texture_cache[file]
-        else:
-            result = self.load_texture(file)
-            self.texture_cache[file] = result
-            return result
-    
+        self.render_model.setTexture(texture)
+
     def load_texture(self, file):
         return self.loader.load_texture(file)
+        
+    def load_texture_no_cache(self, file):
+        newtex = Texture()
+        newtex.setup2dTexture()
+        newtex.read(file)
+        return newtex
 
     #draws an outline of the given physics body using opengl line segs
     def create_debug_shape(self, poly):
@@ -110,9 +114,6 @@ class Graphic:
         x = texture_coord[0] - x_adj
         y = texture_coord[1] - y_adj
         image.multSubImage(sub_image,x,y,0,0,sub_image.getXSize(),sub_image.getYSize(),1.0)
-
-        #image.multSubImage(sub_image,0,0,0,0,sub_image.getXSize(),sub_image.getYSize(),1.0)
-
 
         self.texture.load(image)
         self.render_model.setTexture(self.texture)

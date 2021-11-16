@@ -102,12 +102,15 @@ class MyApp(ShowBase):
         entity = PlayerEntity(context = context,position = (0,-20))
         self.spawn_entity(entity)
 
-        entity = DestructibleTerrain(context = context, position = (0,0))
+        entity = DestructibleTerrain(context = context, position = (-20,-10))
         self.spawn_entity(entity)
 
-        alien = Alien(context=context, position=(0,-10))
-        self.spawn_entity(alien)
-        
+        entity = DestructibleTerrain(context = context, position = (0,-10))
+        self.spawn_entity(entity)
+
+        entity = DestructibleTerrain(context = context, position = (20,-10))
+        self.spawn_entity(entity)
+      
 
     #creates all queued entities
     def spawn_entities(self):
