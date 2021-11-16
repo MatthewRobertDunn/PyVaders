@@ -15,7 +15,7 @@ class DestructibleTerrain(PhysicsTrait, TakesDamageTrait):
         self.draw.create_card(self.BODY_WIDTH,self.BODY_HEIGHT)
         #self.draw.set_texture_from_file("gfx/asteroid.png")
         self.draw.set_texture_from_file_no_cache("gfx/asteroid.png")
-        self.hole_image = self.draw.load_image("gfx/hole.png")
+        self.hole_image = self.draw.load_image("gfx/hole_small.png")
         self.physics_components = self.get_segments()
         self.update_graphics_model()
         
