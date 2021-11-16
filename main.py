@@ -175,12 +175,12 @@ class MyApp(ShowBase):
         else:
             self.statics.remove(entity)
 
-        if (entity.physics_body is not None):
+        if (isinstance(entity, PhysicsTrait)):
             self.physics.remove(entity.physics_body) # add to physics world
 
         self._remove_components(entity)
 
-        if isinstance(self, Graphic) is not None:
+        if isinstance(entity,GraphicsTrait):
             entity.draw.render_model.removeNode()
 
 

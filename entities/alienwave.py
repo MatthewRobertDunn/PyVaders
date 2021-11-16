@@ -24,9 +24,14 @@ class AlienWave(TickingTrait):
         self.initial_count = len(self.aliens)
 
     def tick(self):
-        percent_left = len(self.aliens) / self.initial_count 
-        self.at_most("move_wave",self.move_wave, 0.05 + 0.25 * percent_left)
+        remaining = len(self.aliens)
+        if(remaining == 0):
+            self.despawn()
+            return
 
+        percent_left = remaining / self.initial_count 
+        self.at_most("move_wave",self.move_wave, 0.05 + 0.25 * percent_left)
+         
     
     def move_wave(self):
         self.direction = self.new_direction
