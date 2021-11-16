@@ -7,7 +7,7 @@ class AlienWave(TickingTrait):
         self.aliens=[]
         self.direction = Vec2d(1,0)
         self.new_direction = Vec2d(1,0)
-        
+
         columns = 10
         rows = 3
         left = -15
@@ -21,14 +21,18 @@ class AlienWave(TickingTrait):
                 self.context.spawn_entity(alien)
                 self.aliens.append(alien)
 
+        self.initial_count = len(self.aliens)
+
     def tick(self):
-        self.at_most("move_wave",self.move_wave,0.5)
+        percent_left = len(self.aliens) / self.initial_count 
+        self.at_most("move_wave",self.move_wave, 0.05 + 0.25 * percent_left)
 
     
     def move_wave(self):
         self.direction = self.new_direction
         move_down = False
-        for alien in [x for x in self.aliens if x.is_alive]:
+        self.aliens = [x for x in self.aliens if x.is_alive]
+        for alien in self.aliens:
             old_position = alien.physics_body.position
             new_position = old_position + self.direction
             if(new_position[0] > 30 or new_position[0] < -30):
