@@ -3,7 +3,7 @@ from panda3d.core import CardMaker, NodePath,TransparencyAttrib
 from panda3d.core import LineSegs, PNMImage, Texture
 from pymunk.autogeometry import march_hard, march_soft, simplify_vertexes
 from pymunk import BB, Segment
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 import math
 class Graphic:
