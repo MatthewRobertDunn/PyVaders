@@ -12,6 +12,7 @@ class PhysicsTrait(GraphicsTrait):
         
     def on_spawn(self):
         self.create_physics_body(self.position)
+        del self.position
         return super().on_spawn()
 
         #Create the physics component of the game entity.

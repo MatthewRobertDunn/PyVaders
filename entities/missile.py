@@ -13,6 +13,7 @@ class Missile(DynamicTrait):
     def create_physics_body(self, position):
         self.create_dynamic_rectangle_body(position, 0.25, 1.0)     #Missiles are narrow and long
         self.physics_body.velocity = self.velocity
+        del self.velocity
 
     def create_graphics_model(self):
         self.draw.create_card(0.25,2.0)  #Create a 5x5 card

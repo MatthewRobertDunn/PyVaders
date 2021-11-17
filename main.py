@@ -35,11 +35,12 @@ class MyApp(ShowBase):
         self.threeDNode = self.rootNode.attachNewNode("2dstuff")
         self.backgroundCamera = base.makeCamera(base.win,camName="camBack")
         self.backgroundCamera.reparentTo(self.backgroundNode)
-        cm = CardMaker("cm")
+
         self.cardNode = self.loader.loadModel("gfx/scene.gltf")
         self.cardNode.setScale(0.01)
         self.cardNode.setPos(0, 0, -100)
         self.cardNode.reparentTo(self.backgroundNode)
+
         base.camera.reparentTo(self.threeDNode)
         self.context.render_node.reparentTo(self.threeDNode)
         self.backgroundCamera.node().setCameraMask(1)
