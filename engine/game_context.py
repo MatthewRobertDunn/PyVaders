@@ -27,7 +27,11 @@ class GameContext:
    #creates all queued entities
     def spawn_entities(self):
         while self.created_entities:
-            self._spawn_entity(self.created_entities.pop())
+            entity = self.created_entities.pop()
+            entity.is_alive = True
+            entity.on_spawn()
+            self._spawn_entity(entity)
+            
 
     #queues an entity for creation
     def spawn_entity(self, entity):
@@ -51,8 +55,7 @@ class GameContext:
             self.entities.append(entity)
         else:
             self.statics.append(entity)
-        entity.is_alive = True
-        entity.on_spawn()
+        
             
     def despawn_entities(self):
         while self.deleted_entities:

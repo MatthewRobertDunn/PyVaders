@@ -6,10 +6,13 @@ import pymunk
 class PhysicsTrait(GraphicsTrait):
     def __init__(self, *, position = (0,0), **kwargs):
         super().__init__(**kwargs)
-        self.keys = self.context.keys
+        self.position = position
         self.physics_components = []  #contains other physics components, constraints, joints, etc
-        self.create_physics_body(position)
-        self.create_graphics_model()
+        
+        
+    def on_spawn(self):
+        self.create_physics_body(self.position)
+        return super().on_spawn()
 
         #Create the physics component of the game entity.
     def create_physics_body(self, position):
@@ -19,7 +22,6 @@ class PhysicsTrait(GraphicsTrait):
     def create_graphics_model(self):
         self.draw.create_card(2.0,2.0)
         self.draw.load_texture("gfx/alien.png")
-        self.draw.update_graphics_model()
 
     def on_collision(self, other, self_contact, other_contact):
         pass

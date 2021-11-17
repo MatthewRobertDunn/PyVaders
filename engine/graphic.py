@@ -59,7 +59,8 @@ class Graphic:
         self.render_model.set_pos(body.position[0], body.position[1], self.z_order)
         self.render_model.set_hpr(0,0,math.degrees(-body.angle))  # is this right? seems like it
 
-
+    def set_position(self, position):
+        self.render_model.set_pos(position[0], position[1], self.z_order)
 
     def texture_to_geometry(self, width, height, texture):
         image = PNMImage()

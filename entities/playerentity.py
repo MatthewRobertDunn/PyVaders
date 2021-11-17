@@ -28,6 +28,8 @@ class PlayerEntity(DynamicTrait):
             self.at_most("fire_missile", self.fire_missile,0.25)    
         
     def fire_missile(self):
-        missile = Missile(context = self.context,position = (self.physics_body.position[0], self.physics_body.position[1]+2.5))
-        missile.physics_body.velocity = self.physics_body.velocity
+        missile = Missile(context = self.context,
+                            position = (self.physics_body.position[0], self.physics_body.position[1]+2.5),
+                            velocity=self.physics_body.velocity
+                            )
         self.context.spawn_entity(missile)

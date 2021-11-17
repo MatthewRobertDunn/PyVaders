@@ -1,12 +1,18 @@
 import pymunk
 
 from entities.dynamic_trait import DynamicTrait
+from entities.small_explosion import SmallExplosion
 from entities.takesdamage_trait import TakesDamageTrait
 #A basic missile entity
 class Missile(DynamicTrait):
+    def __init__(self, *, position, velocity, **kwargs):
+        super().__init__(position=position, **kwargs)
+        self.velocity = velocity
+
     #Create the physics component of the game entity.
     def create_physics_body(self, position):
         self.create_dynamic_rectangle_body(position, 0.25, 1.0)     #Missiles are narrow and long
+        self.physics_body.velocity = self.velocity
 
     def create_graphics_model(self):
         self.draw.create_card(0.25,2.0)  #Create a 5x5 card
@@ -25,4 +31,5 @@ class Missile(DynamicTrait):
 
     def explode(self):
         #No explosion yet
+        self.context.spawn_entity(SmallExplosion(position=self.physics_body.position,context=self.context))
         self.despawn()
