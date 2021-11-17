@@ -64,7 +64,7 @@ class MyApp(ShowBase):
         nodePath.node().adjustDrawMask(BitMask32(showMask.getWord(0).getWord()),hideMask.getWord(0).getWord(),clearMask.getWord(0).getWord())
 
     def physics_task(self, task):
-        self.cardNode.setHpr(task.time,0,0)
+        self.cardNode.setHpr(0,task.time,90)
         dt = round(globalClock.getDt(),4)
         self.keys.poll(base.mouseWatcherNode)
         self.context.tick(task.time,dt)
