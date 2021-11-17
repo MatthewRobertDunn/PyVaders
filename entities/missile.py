@@ -5,8 +5,8 @@ from entities.small_explosion import SmallExplosion
 from entities.takesdamage_trait import TakesDamageTrait
 #A basic missile entity
 class Missile(DynamicTrait):
-    def __init__(self, *, position, velocity, **kwargs):
-        super().__init__(position=position, **kwargs)
+    def __init__(self, *, velocity, **kwargs):
+        super().__init__(**kwargs)
         self.velocity = velocity
 
     #Create the physics component of the game entity.
