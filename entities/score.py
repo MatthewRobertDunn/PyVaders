@@ -6,7 +6,7 @@ class Score(GraphicsTrait):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.score = 0
-        self.context.increase_score = self.increase_score
+        self.context.score = self
 
     def create_graphics_model(self):
         text = OnscreenText(text='my text string', pos=(0, 0), scale=2.5)

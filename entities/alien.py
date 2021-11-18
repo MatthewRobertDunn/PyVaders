@@ -13,5 +13,5 @@ class Alien(PhysicsTrait, TakesDamageTrait):
 
     #Die if we take damage
     def take_damage(self, source, amount, contact):
-        self.context.increase_score(5)
+        self.context.score.increase_score(5)
         self.despawn()
