@@ -19,6 +19,11 @@ class Graphic:
         self.cardMaker.setFrame(-(width / 2.0), (width / 2.0), -(height / 2.0), (height / 2.0))
         self.render_model = NodePath(self.cardMaker.generate())
 
+
+    def load_model(self, file):
+        self.render_model = self.loader.loadModel(file)
+        return self.render_model
+
     def set_texture_from_file(self, file):
         self.texture = self.load_texture(file)
         self.set_texture(self.texture)
@@ -57,7 +62,7 @@ class Graphic:
       #Update graphics model to match the physics model
     def update_graphics_model(self, body):
         self.render_model.set_pos(body.position[0], body.position[1], self.z_order)
-        self.render_model.set_hpr(0,0,math.degrees(-body.angle))  # is this right? seems like it
+        self.render_model.setR(math.degrees(-body.angle))  # is this right? seems like it
 
     def set_position(self, position):
         self.render_model.set_pos(position[0], position[1], self.z_order)
