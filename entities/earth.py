@@ -4,9 +4,9 @@ from entities.graphics_trait import GraphicsTrait
 class Earth(TickingTrait,GraphicsTrait):
     def create_graphics_model(self):
         node = self.draw.set_model("gfx/earth/scene.gltf",Layers.BACKGROUND)
-        node.setScale(0.005)
+        node.setScale(0.04)
         node.setPos(0, 0, -100)
 
     def tick(self):
         #slowly rotate the planet
-        self.draw.background_node.setHpr(0,TickingTrait.time,90)
+        self.draw.background_node.setHpr(0,-TickingTrait.time,90)
