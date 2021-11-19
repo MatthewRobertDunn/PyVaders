@@ -45,11 +45,11 @@ class MyApp(ShowBase):
         self.hideFromCamera(self.backgroundCamera, self.game_node)
         self.hideFromCamera(self.cam, self.background_node)
 
-        dlight = DirectionalLight('directionalLight')
-        dlight.setDirection(Vec3(0, 0, -2)) # (towards right-back-bottom; should only illuminate front/left/top )
-        dlight.setColor(Vec4(1, 1, 1, 1))
-        dlightNP = self.game_node.attachNewNode(dlight)
-        self.game_node.setLight(dlightNP)
+        #dlight = DirectionalLight('directionalLight')
+        #dlight.setDirection(Vec3(0, 0, -2)) # (towards right-back-bottom; should only illuminate front/left/top )
+        #dlight.setColor(Vec4(1, 1, 1, 1))
+        #dlightNP = self.game_node.attachNewNode(dlight)
+        #self.game_node.setLight(dlightNP)
 
         self.context.game_node.reparentTo(self.game_node)
         self.context.background_node.reparentTo(self.background_node)
