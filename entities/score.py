@@ -15,7 +15,7 @@ class Score(GraphicsTrait):
         text.set_pos(0,21,-1.8)
         text.setText(str(self.score))
         self.text = text
-        self.draw.render_model = text
+        self.draw.hud_node = text
 
     def increase_score(self,amount):
         self.score += amount

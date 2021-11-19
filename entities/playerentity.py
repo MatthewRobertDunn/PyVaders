@@ -15,21 +15,21 @@ class PlayerEntity(DynamicTrait):
         #self.draw.create_card(5.0,5.0)  #Create a 5x5 card
         #self.draw.set_texture_from_file("gfx/player.png")
         self.draw.z_order = -4.0
-        self.draw.load_model("gfx/ship/scene.gltf")
-        self.draw.render_model.setHpr(0,-90,180)
-        self.draw.render_model.flatten_light()
+        self.draw.set_model("gfx/ship/scene.gltf")
+        self.draw.game_node.setHpr(0,-90,180)
+        self.draw.game_node.flatten_light()
         #self.draw.create_debug_shape(self.physics_poly)
 
     #Main game logic
     def tick(self):
         if self.keys.right:
             self.physics_body.apply_force_at_local_point((500.0,0.0),(0,0))
-            self.draw.render_model.setH(30)
+            self.draw.game_node.setH(30)
         elif self.keys.left:
             self.physics_body.apply_force_at_local_point((-500.0,0.0),(0,0))
-            self.draw.render_model.setH(-30)
+            self.draw.game_node.setH(-30)
         else:
-            self.draw.render_model.setH(0)
+            self.draw.game_node.setH(0)
 
         if self.keys.fire:
             self.at_most("fire_missile", self.fire_missile,0.25)    

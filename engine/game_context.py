@@ -12,7 +12,9 @@ class GameContext:
         self.deleted_entities = []
         self.keys = keys
         self.loader = loader
-        self.render_node = NodePath("GameContext")
+        self.game_node = NodePath("game_node")
+        self.background_node = NodePath("background_node")
+        self.hud_node = NodePath("hud_node")
 
     def tick(self, time, dt):
         TickingTrait.time = time #global time
@@ -42,7 +44,14 @@ class GameContext:
     def _spawn_entity(self, entity):
         #Add entity to renderer if it has any render model
         if isinstance(entity,GraphicsTrait):
-            entity.draw.render_model.reparent_to(self.render_node)
+            if entity.draw.game_node is not None:
+                entity.draw.game_node.reparent_to(self.game_node)
+            
+            if entity.draw.background_node is not None:
+                entity.draw.background_node.reparent_to(self.background_node)
+            
+            if entity.draw.hud_node is not None:
+                entity.draw.hud_node.reparent_to(self.hud_node)
 
         #add entity to physics simulation if it has a physics body.
         if (isinstance(entity, PhysicsTrait)):
@@ -79,7 +88,14 @@ class GameContext:
             self._remove_components(entity)
 
         if isinstance(entity,GraphicsTrait):
-            entity.draw.render_model.removeNode()
+            if entity.draw.game_node is not None:
+                entity.draw.game_node.remove_node()
+
+            if entity.draw.background_node is not None:
+                entity.draw.background_node.remove_node()
+
+            if entity.draw.hud_node is not None:
+                entity.draw.hud_node.remove_node()
 
 
     def _remove_components(self, entity):

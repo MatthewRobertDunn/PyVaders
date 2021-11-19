@@ -32,30 +32,28 @@ class MyApp(ShowBase):
         self.taskMgr.add(self.physics_task, "physics",None,None,-100)
         self.context = InvaderContext(self.keys, self.loader)
         
-        self.rootNode = self.render.attachNewNode("rootNode")
-        self.backgroundNode = self.rootNode.attachNewNode("backgroundRoot")
-        self.gameNode = self.rootNode.attachNewNode("2dstuff")
+        self.background_node = self.render.attachNewNode("background_node")
+        self.game_node = self.render.attachNewNode("game_node")
+        self.hud_node = self.render.attachNewNode("hud_node")
         self.backgroundCamera = base.makeCamera(base.win,camName="camBack")
-        self.backgroundCamera.reparentTo(self.backgroundNode)
+        self.backgroundCamera.reparentTo(self.background_node)
 
-        self.cardNode = self.loader.loadModel("gfx/scene.gltf")
-        self.cardNode.setScale(0.01)
-        self.cardNode.setPos(0, 0, -100)
-        self.cardNode.reparentTo(self.backgroundNode)
+        base.camera.reparentTo(self.game_node)
 
-        base.camera.reparentTo(self.gameNode)
-        self.context.render_node.reparentTo(self.gameNode)
         self.backgroundCamera.node().setCameraMask(1)
         self.cam.node().setCameraMask(2)
-        self.hideFromCamera(self.backgroundCamera, self.gameNode)
-        self.hideFromCamera(self.cam, self.backgroundNode)
+        self.hideFromCamera(self.backgroundCamera, self.game_node)
+        self.hideFromCamera(self.cam, self.background_node)
 
-        #dlight = DirectionalLight('directionalLight')
-        #dlight.setDirection(Vec3(0, 0, -2)) # (towards right-back-bottom; should only illuminate front/left/top )
-        #dlight.setColor(Vec4(1, 1, 1, 1))
-        #dlightNP = self.threeDNode.attachNewNode(dlight)
-        #self.threeDNode.setLight(dlightNP)
-        
+        dlight = DirectionalLight('directionalLight')
+        dlight.setDirection(Vec3(0, 0, -2)) # (towards right-back-bottom; should only illuminate front/left/top )
+        dlight.setColor(Vec4(1, 1, 1, 1))
+        dlightNP = self.game_node.attachNewNode(dlight)
+        self.game_node.setLight(dlightNP)
+
+        self.context.game_node.reparentTo(self.game_node)
+        self.context.background_node.reparentTo(self.background_node)
+        self.context.hud_node.reparentTo(self.hud_node)
 
 
     def hideFromCamera(self,camera1,nodePath):
@@ -67,7 +65,6 @@ class MyApp(ShowBase):
         nodePath.node().adjustDrawMask(BitMask32(showMask.getWord(0).getWord()),hideMask.getWord(0).getWord(),clearMask.getWord(0).getWord())
 
     def physics_task(self, task):
-        self.cardNode.setHpr(0,task.time,90)
         dt = round(globalClock.getDt(),4)
         self.keys.poll(base.mouseWatcherNode)
         self.context.tick(task.time,dt)

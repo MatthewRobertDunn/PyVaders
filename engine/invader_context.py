@@ -1,5 +1,6 @@
 from engine.physics_context import PhysicsContext
 from entities.alienwave import AlienWave
+from entities.earth import Earth
 from entities.playerentity import PlayerEntity
 from entities.destructibleterrain import DestructibleTerrain
 from entities.score import Score
@@ -26,4 +27,7 @@ class InvaderContext(PhysicsContext):
         self.spawn_entity(entity)
 
         entity = Score(context = self)
+        self.spawn_entity(entity)
+
+        entity = Earth(context = self)
         self.spawn_entity(entity)
