@@ -9,8 +9,8 @@ coord_system = ConfigVariableString("coordinate-system")
 coord_system.setValue("yup-right")
 
 #Uncomment this to use dx
-#r = ConfigVariableString("load-display")
-#r.setValue("pandadx9")
+r = ConfigVariableString("load-display")
+r.setValue("pandadx9")
 
 #uncomment this to remove vsync
 #s = ConfigVariableString("sync-video")
@@ -23,16 +23,18 @@ class MyApp(ShowBase):
         #base.messenger.toggleVerbose()
         base.setBackgroundColor(0, 0, 0)
         lens = OrthographicLens()
-        lens.setFilmSize(80*0.8, 60*0.8)  # Or whatever is appropriate for your scene
+        lens.setFilmSize(16*5, 9*5)  # Or whatever is appropriate for your scene
         base.cam.node().setLens(lens)
-        base.cam.setPos(0,0,0)
+        props = WindowProperties() 
+        props.setSize(1600, 900) 
+        base.win.requestProperties(props) 
         
         self.taskMgr.add(self.physics_task, "physics",None,None,-100)
         self.context = InvaderContext(self.keys, self.loader)
         
         self.rootNode = self.render.attachNewNode("rootNode")
         self.backgroundNode = self.rootNode.attachNewNode("backgroundRoot")
-        self.threeDNode = self.rootNode.attachNewNode("2dstuff")
+        self.gameNode = self.rootNode.attachNewNode("2dstuff")
         self.backgroundCamera = base.makeCamera(base.win,camName="camBack")
         self.backgroundCamera.reparentTo(self.backgroundNode)
 
@@ -41,18 +43,18 @@ class MyApp(ShowBase):
         self.cardNode.setPos(0, 0, -100)
         self.cardNode.reparentTo(self.backgroundNode)
 
-        base.camera.reparentTo(self.threeDNode)
-        self.context.render_node.reparentTo(self.threeDNode)
+        base.camera.reparentTo(self.gameNode)
+        self.context.render_node.reparentTo(self.gameNode)
         self.backgroundCamera.node().setCameraMask(1)
         self.cam.node().setCameraMask(2)
-        self.hideFromCamera(self.backgroundCamera, self.threeDNode)
+        self.hideFromCamera(self.backgroundCamera, self.gameNode)
         self.hideFromCamera(self.cam, self.backgroundNode)
 
-        dlight = DirectionalLight('directionalLight')
-        dlight.setDirection(Vec3(0, 0, -1)) # (towards right-back-bottom; should only illuminate front/left/top )
-        dlight.setColor(Vec4(1, 1, 1, 1))
-        dlightNP = self.threeDNode.attachNewNode(dlight)
-        self.threeDNode.setLight(dlightNP)
+        #dlight = DirectionalLight('directionalLight')
+        #dlight.setDirection(Vec3(0, 0, -2)) # (towards right-back-bottom; should only illuminate front/left/top )
+        #dlight.setColor(Vec4(1, 1, 1, 1))
+        #dlightNP = self.threeDNode.attachNewNode(dlight)
+        #self.threeDNode.setLight(dlightNP)
         
 
 
