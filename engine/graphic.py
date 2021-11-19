@@ -27,13 +27,13 @@ class Graphic:
     def create_card(self,width, height, layer = Layers.GAME):
         self.cardMaker.setFrame(-(width / 2.0), (width / 2.0), -(height / 2.0), (height / 2.0))
         node = NodePath(self.cardMaker.generate())
-        self._setNode(node, layer)
+        self.set_node(node, layer)
         return node
 
 
     def set_model(self, file, layer = Layers.GAME):
         node = self.loader.loadModel(file)
-        self._setNode(node, layer)
+        self.set_node(node, layer)
         return node
 
     def set_texture_from_file(self, file, layer = Layers.GAME):
@@ -45,7 +45,7 @@ class Graphic:
         self.set_texture(self.texture, layer)
 
     def set_texture(self, texture, layer = Layers.GAME):
-        node = self._getNode(layer)
+        node = self.get_node(layer)
         node.setTransparency(TransparencyAttrib.MAlpha, 1)
         node.setTexture(texture)
 
@@ -69,17 +69,17 @@ class Graphic:
             lines.drawTo(vx2[0],vx2[1],0)
         lines.setThickness(4)
         node = NodePath(lines.create())
-        self._setNode(node)
+        self.set_node(node)
         return node
 
       #Update graphics model to match the physics model
     def update_graphics_model(self, body, layer = Layers.GAME):
-        node = self._getNode(layer)
+        node = self.get_node(layer)
         node.set_pos(body.position[0], body.position[1], self.z_order)
         node.setR(math.degrees(-body.angle))  # is this right? seems like it
 
     def set_position(self, position, layer = Layers.GAME):
-        node = self._getNode(layer)
+        node = self.get_node(layer)
         node.set_pos(position[0], position[1], self.z_order)
 
     def texture_to_geometry(self, width, height, texture):
@@ -108,7 +108,7 @@ class Graphic:
         #self.debug_draw_lines(lines)        
         return lines
 
-    def _getNode(self, layer):
+    def get_node(self, layer = Layers.GAME):
         if layer == Layers.BACKGROUND:
             return self.background_node
         elif layer == Layers.GAME:
@@ -118,7 +118,7 @@ class Graphic:
         else:
             raise Exception("Invalid layer")
 
-    def _setNode(self, node, layer):
+    def set_node(self, node, layer = Layers.GAME):
         if layer == Layers.BACKGROUND:
             self.background_node = node
         elif layer == Layers.GAME:
