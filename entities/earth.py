@@ -4,7 +4,7 @@ from entities.graphics_trait import GraphicsTrait
 class Earth(TickingTrait,GraphicsTrait):
     def create_graphics_model(self):
         node = self.draw.set_model("gfx/earth/scene.gltf",Layers.BACKGROUND)
-        node.setScale(0.01)
+        node.setScale(0.005)
         node.setPos(0, 0, -100)
 
     def tick(self):

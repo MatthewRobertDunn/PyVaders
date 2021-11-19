@@ -35,8 +35,13 @@ class MyApp(ShowBase):
         self.background_node = self.render.attachNewNode("background_node")
         self.game_node = self.render.attachNewNode("game_node")
         self.hud_node = self.render.attachNewNode("hud_node")
+        
         self.backgroundCamera = base.makeCamera(base.win,camName="camBack")
         self.backgroundCamera.reparentTo(self.background_node)
+        lens = PerspectiveLens()
+        lens.setFilmSize(16*5, 9*5)  # Or whatever is appropriate for your scene
+        self.backgroundCamera.node().setLens(lens)
+
 
         base.camera.reparentTo(self.game_node)
 
