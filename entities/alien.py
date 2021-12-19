@@ -6,6 +6,10 @@ class Alien(PhysicsTrait, TakesDamageTrait):
     def create_physics_body(self, position):
         self.create_kinematic_rectangle_body(position, 2.0, 2.9) 
 
+    def on_spawn(self):
+        super().on_spawn()
+        self.dead_sound = self.context.loader.loadSfx("snd/dead2.wav")
+
     #Create graphics component
     def create_graphics_model(self):
         self.draw.create_card(2.0,2.0)
@@ -15,3 +19,4 @@ class Alien(PhysicsTrait, TakesDamageTrait):
     def take_damage(self, source, amount, contact):
         self.context.score.increase_score(5)
         self.despawn()
+        self.dead_sound.play()

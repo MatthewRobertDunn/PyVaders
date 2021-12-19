@@ -11,6 +11,11 @@ class PlayerEntity(DynamicTrait):
         move_joint = pymunk.GrooveJoint(self.context.static_body, self.physics_body, (-100, position[1]), (100, position[1]), (0, 0))
         self.physics_components.append(move_joint)
 
+    def on_spawn(self):
+        super().on_spawn()
+        self.shoot_sound = self.context.loader.loadSfx("snd/laser2.wav")
+
+
     def create_graphics_model(self):
         #self.draw.create_card(5.0,5.0)  #Create a 5x5 card
         #self.draw.set_texture_from_file("gfx/player.png")
@@ -40,3 +45,4 @@ class PlayerEntity(DynamicTrait):
                             velocity=self.physics_body.velocity
                             )
         self.context.spawn_entity(missile)
+        self.shoot_sound.play()
