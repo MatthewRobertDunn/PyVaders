@@ -36,9 +36,13 @@ class AlienWave(TickingTrait):
 
     def alien_shoot(self):
         #Group aliens by X coordinate
+        candidates = []
         for key, column in itertools.groupby(self.aliens, lambda alien: alien.physics_body.position[0]):
             lowest_alien = min(column, key=lambda alien: alien.physics_body.position[1])
-            self.chance(0.1, lowest_alien.fire)
+            candidates.append(lowest_alien)
+        
+        for alien in candidates:
+            self.chance(1.0 / len(candidates), alien.fire)
 
     def move_wave(self):
         self.direction = self.new_direction

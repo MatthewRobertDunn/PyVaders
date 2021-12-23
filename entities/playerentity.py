@@ -38,7 +38,7 @@ class PlayerEntity(DynamicTrait, TakesDamageTrait):
             self.draw.game_node.setH(0)
 
         if self.keys.fire:
-            self.at_most("fire_missile", self.fire_missile,0.25)    
+            self.at_most("fire_missile", self.fire_missile,0.40)    
         
     def fire_missile(self):
         missile = Missile(context = self.context,
