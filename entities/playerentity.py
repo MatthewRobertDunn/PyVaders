@@ -50,4 +50,5 @@ class PlayerEntity(DynamicTrait, TakesDamageTrait):
 
 
     def take_damage(self, source, amount, contact):
+        self.despawn()
         print("Game is over")
