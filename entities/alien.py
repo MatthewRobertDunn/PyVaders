@@ -1,5 +1,7 @@
+from entities.missile import Missile
 from entities.physics_trait import PhysicsTrait
 from entities.takesdamage_trait import TakesDamageTrait
+import math
 #A little space invader alien
 class Alien(PhysicsTrait, TakesDamageTrait):
     #Create the physics component of the game entity.
@@ -20,3 +22,16 @@ class Alien(PhysicsTrait, TakesDamageTrait):
         self.context.score.increase_score(5)
         self.despawn()
         self.dead_sound.play()
+
+    def on_collision(self, other, self_contact, other_contact):
+        if isinstance(other,TakesDamageTrait):
+            other.take_damage(self,10.0, self_contact)    #Cause 10 damage
+
+    def fire(self):
+        missile = Missile(context = self.context,
+                    position = (self.physics_body.position[0], self.physics_body.position[1]-3),
+                    velocity=self.physics_body.velocity,
+                    angle=math.pi
+                    )
+        self.context.spawn_entity(missile)
+        #self.shoot_sound.play()

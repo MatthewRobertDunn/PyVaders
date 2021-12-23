@@ -5,14 +5,16 @@ from entities.small_explosion import SmallExplosion
 from entities.takesdamage_trait import TakesDamageTrait
 #A basic missile entity
 class Missile(DynamicTrait):
-    def __init__(self, *, velocity, **kwargs):
+    def __init__(self, *, velocity, angle = 0, **kwargs):
         super().__init__(**kwargs)
         self.velocity = velocity
+        self.angle = angle
 
     #Create the physics component of the game entity.
     def create_physics_body(self, position):
         self.create_dynamic_rectangle_body(position, 0.25, 1.0)     #Missiles are narrow and long
         self.physics_body.velocity = self.velocity
+        self.physics_body.angle = self.angle
         del self.velocity
 
     def create_graphics_model(self):

@@ -1,6 +1,7 @@
 from pymunk.vec2d import Vec2d
 from entities.alien import Alien
 from entities.ticking_trait import TickingTrait
+import itertools
 class AlienWave(TickingTrait):
 
     def on_spawn(self):
@@ -31,8 +32,14 @@ class AlienWave(TickingTrait):
 
         percent_left = remaining / self.initial_count 
         self.at_most("move_wave",self.move_wave, 0.01 + 0.25 * percent_left)
-         
-    
+        self.at_most("aliens_shoot",self.alien_shoot,1.0)
+
+    def alien_shoot(self):
+        #Group aliens by X coordinate
+        for key, column in itertools.groupby(self.aliens, lambda alien: alien.physics_body.position[0]):
+            lowest_alien = min(column, key=lambda alien: alien.physics_body.position[1])
+            self.chance(0.1, lowest_alien.fire)
+
     def move_wave(self):
         self.direction = self.new_direction
         move_down = False

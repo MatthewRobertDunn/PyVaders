@@ -2,8 +2,9 @@
 import pymunk
 from entities.dynamic_trait import DynamicTrait
 from entities.missile import Missile
+from entities.takesdamage_trait import TakesDamageTrait
 #A basic dynamic physics game entity
-class PlayerEntity(DynamicTrait):
+class PlayerEntity(DynamicTrait, TakesDamageTrait):
 
     #Create the physics component of the game entity.
     def create_physics_body(self, position):
@@ -46,3 +47,7 @@ class PlayerEntity(DynamicTrait):
                             )
         self.context.spawn_entity(missile)
         self.shoot_sound.play()
+
+
+    def take_damage(self, source, amount, contact):
+        print("Game is over")

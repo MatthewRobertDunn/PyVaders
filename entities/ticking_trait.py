@@ -1,4 +1,5 @@
 from entities.entity import Entity
+import random
 #An entity that receives ticks
 class TickingTrait(Entity):
     delta_time = 0.0        #Time passed per frame, secs
@@ -20,6 +21,10 @@ class TickingTrait(Entity):
         if(TickingTrait.time - self.at_most_funcs.get(task_name, -limit) >= limit):
             func()
             self.at_most_funcs[task_name] = TickingTrait.time   #We last fired this func now
+
+    def chance(self, chance, func):
+        if random.random() < chance:
+            func()
 
     #Runs a function once after a length of time has passed
     def once_after(self,task_name, func, limit):
