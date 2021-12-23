@@ -7,7 +7,7 @@ from panda3d.core import *
 from panda3d.core import ConfigVariableString
 from panda3d.core import DrawMask, BitArray
 from context_manager import ContextManager
-
+import gltf
 coord_system = ConfigVariableString("coordinate-system")
 coord_system.setValue("yup-right")
 
@@ -21,6 +21,7 @@ r.setValue("pandadx9")
 class MyApp(ShowBase):
     def __init__(self):
         ShowBase.__init__(self)
+        gltf.patch_loader(self.loader)
         self.keys = GameKeys()
         self.context = None
         base.setFrameRateMeter(True)

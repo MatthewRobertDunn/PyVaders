@@ -3,3 +3,5 @@
 /entities/__pycache__
 /engine/__pycache__
 /entities/menu/__pycache__
+build
+dist
