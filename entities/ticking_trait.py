@@ -26,6 +26,9 @@ class TickingTrait(Entity):
         if random.random() < chance:
             func()
 
+    def once(self, task_name, func):
+        self.once_after(task_name,func,0)
+
     #Runs a function once after a length of time has passed
     def once_after(self,task_name, func, limit):
         fireTime = self.after_funcs.get(task_name, None)

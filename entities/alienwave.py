@@ -1,5 +1,6 @@
 from pymunk.vec2d import Vec2d
 from entities.alien import Alien
+from entities.big_message import BigMessage
 from entities.ticking_trait import TickingTrait
 import itertools
 class AlienWave(TickingTrait):
@@ -28,6 +29,7 @@ class AlienWave(TickingTrait):
         remaining = len(self.aliens)
         if(remaining == 0):
             self.despawn()
+            self.game_won()
             return
 
         percent_left = remaining / self.initial_count 
@@ -48,6 +50,7 @@ class AlienWave(TickingTrait):
         self.direction = self.new_direction
         move_down = False
         self.aliens = [x for x in self.aliens if x.is_alive]
+
         for alien in self.aliens:
             old_position = alien.physics_body.position
             new_position = old_position + self.direction
@@ -66,3 +69,7 @@ class AlienWave(TickingTrait):
             new_position = old_position + (0,-1)
             alien.physics_body.position = new_position
             alien.update_graphics_model()
+
+    def game_won(self):
+        entity = BigMessage(context = self.context, text="You Won!")
+        self.context.spawn_entity(entity)
