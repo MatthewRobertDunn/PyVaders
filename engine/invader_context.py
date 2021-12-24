@@ -1,5 +1,6 @@
 from engine.physics_context import PhysicsContext
 from entities.alienwave import AlienWave
+from entities.big_message import BigMessage
 from entities.earth import Earth
 from entities.playerentity import PlayerEntity
 from entities.destructibleterrain import DestructibleTerrain

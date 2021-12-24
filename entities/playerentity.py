@@ -1,5 +1,6 @@
 
 import pymunk
+from entities.big_message import BigMessage
 from entities.dynamic_trait import DynamicTrait
 from entities.missile import Missile
 from entities.takesdamage_trait import TakesDamageTrait
@@ -51,4 +52,6 @@ class PlayerEntity(DynamicTrait, TakesDamageTrait):
 
     def take_damage(self, source, amount, contact):
         self.despawn()
+        entity = BigMessage(context = self.context, text="Game Over")
+        self.context.spawn_entity(entity)
         print("Game is over")
