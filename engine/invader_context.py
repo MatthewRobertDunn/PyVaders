@@ -32,3 +32,5 @@ class InvaderContext(PhysicsContext):
 
         entity = Earth(context = self)
         self.spawn_entity(entity)
+        #fix initial loading glitch
+        self.spawn_entities()
